@@ -1,0 +1,44 @@
+[package]
+name = "osrust"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bootloader = { version = "0.9.8", features = ["map_physical_memory"]}
+volatile = "0.2.6"
+spin = "0.5.2"
+x86_64 = "0.14.9"
+uart_16550 = "0.2.17"
+pic8259 = "0.10.2"
+pc-keyboard = "0.5.1"
+linked_list_allocator = "0.9.1"
+
+[dependencies.lazy_static]
+version = "1.0"
+features = ["spin_no_std"]
+
+[package.metadata.bootimage]
+test-args = [
+    "-device", "isa-debug-exit,iobase=0xf4,iosize=0x04", 
+    "-serial", "stdio",
+    "-display", "none"
+]
+test-success-exit-code = 33
+test-timeout = 300
+
+
+[profile.dev]
+#panic = "abort"
+
+[profile.release]
+panic = "abort"
+
+
+[[test]]
+name = "should_panic"
+harness = false
+[[test]]
+name = "stack_overflow"
+harness = false
