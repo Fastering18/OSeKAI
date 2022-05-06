@@ -1,0 +1,1 @@
+qemu-system-x86_64 -boot d -cdrom barebones.iso -m 512
