@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "limine.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "type_traits": "c"
     }
 }

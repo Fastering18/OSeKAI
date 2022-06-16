@@ -15,7 +15,7 @@ uint32_t torgb(uint32_t r, uint32_t g, uint64_t b) {
 }
 
 void _putpixel(uint32_t x, uint32_t y, uint32_t colour, struct limine_framebuffer *frm) {
-    *(uint32_t *)((uint64_t)(frm->address) + (x * 4) + (y * (frm->pitch / (frm->bpp / 8)) * 4)) = colour;
+    *(uint32_t *)( (uint64_t)(frm->address) + (x * 4) + (y * (frm->pitch / (frm->bpp / 8)) * 4) ) = colour;
 }
 void putpixel(uint32_t x, uint32_t y, uint32_t colour) {
     *(uint32_t *)((uint64_t)(default_frm->address) + (x * 4) + (y * (default_frm->pitch / (default_frm->bpp / 8)) * 4)) = colour;

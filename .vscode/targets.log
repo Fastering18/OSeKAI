@@ -1,0 +1,932 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make -C src
+ 
+# make[1]: Entering directory '/home/mengcode/projek/OSeraX/v2/oserax_limine/src'
+ 
+# GNU Make 4.2.1
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Thu Jun 16 21:51:05 2022
+
+# Variables
+
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# environment
+WSLENV = ELECTRON_RUN_AS_NODE/w:
+# default
+.SHELLFLAGS := -c
+# 'override' directive (from 'GNUmakefile', line 71)
+OBJ := ./drivers/display/framebuffer.o ./drivers/display/terminal.o ./kernel/kernel.o ./lib/string.o ./mem/alloc.o ./mem/mem.o
+# environment
+VSCODE_LOG_NATIVE = false
+# environment
+NVM_INC = /home/mengcode/.nvm/versions/node/v16.15.0/include/node
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# makefile (from 'GNUmakefile', line 35)
+INCLUDES := -I. -Ikernel/ -Imem/ -Ilib/ -Idrivers/display/
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# automatic
+@F = $(notdir $@)
+# makefile
+CURDIR := /home/mengcode/projek/OSeraX/v2/oserax_limine/src
+# makefile
+SHELL = /bin/sh
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
+# makefile (from 'GNUmakefile', line 4)
+DRIVERSDIR = drivers
+# environment
+_ = /mnt/c/Users/brahmana/AppData/Local/Programs/Microsoft VS Code/bin/code
+# makefile (from 'GNUmakefile', line 30)
+CFLAGS = -O3 -g -Wall -Wextra -pipe
+# 'override' directive (from 'GNUmakefile', line 8)
+KERNEL := kernel/kernel.elf
+# makefile (from 'mem/mem.d', line 1)
+MAKEFILE_LIST :=  GNUmakefile drivers/display/framebuffer.d drivers/display/terminal.d kernel/kernel.d lib/string.d mem/alloc.d mem/mem.d
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+XDG_DATA_DIRS = /usr/local/share:/usr/share:/var/lib/snapd/desktop
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# 'override' directive (from 'GNUmakefile', line 73)
+HEADER_DEPS := ./drivers/display/framebuffer.d ./drivers/display/terminal.d ./kernel/kernel.d ./lib/string.d ./mem/alloc.d ./mem/mem.d
+# 'override' directive (from 'GNUmakefile', line 69)
+CFILES := ./drivers/display/framebuffer.c ./drivers/display/terminal.c ./kernel/kernel.c ./lib/string.c ./mem/alloc.c ./mem/mem.c
+# environment
+LESSOPEN = | /usr/bin/lesspipe %s
+# environment
+VSCODE_CWD = /mnt/c/Users/brahmana/AppData/Local/Programs/Microsoft VS Code
+# makefile (from 'GNUmakefile', line 11)
+define DEFAULT_VAR
+    ifeq ($(origin $1), default)
+        override $(1) := $(2)
+    endif
+    ifeq ($(origin $1), undefined)
+        override $(1) := $(2)
+    endif
+endef
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+PATH = /home/mengcode/.vscode-server/bin/30d9c6cd9483b2cc586687151bcbcd635f373630/bin/remote-cli:/home/mengcode/.local/bin:/home/mengcode/.nvm/versions/node/v16.15.0/bin:/home/mengcode/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/Program Files/WindowsApps/CanonicalGroupLimited.Ubuntu_2004.4.4.0_x64__79rhkp1fndgsc:/mnt/c/Python27/:/mnt/c/Python27/Scripts:/mnt/c/Python310/Scripts/:/mnt/c/Python310/:/mnt/c/tools/ruby30/bin:/mnt/c/Program Files/Conan/conan:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Java/jdk-15.0.1/bin:/mnt/f/Program Files/bin:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/Microsoft SQL Server/130/Tools/Binn/:/mnt/c/ProgramData/chocolatey/bin:/mnt/d/Projek/Node-Compiler/Python-Javanese:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files (x86)/Lua/5.1:/mnt/c/Program Files (x86)/Lua/5.1/clibs:/mnt/c/Program Files/Go/bin:/mnt/c/Program Files/NASM:/mnt/d/vcpkg-master:/mnt/c/tools/php80:/mnt/c/ProgramData/ComposerSetup/bin:/mnt/d/Projek/Discordia-Scanner:/mnt/d/Projek/flutter-test/flutter/bin:/mnt/d/Projek/node-gblk/bin:/mnt/d/Programs/StrawberryPerl/perl/bin:/mnt/c/Program Files/vcpkg:/mnt/c/Program Files/CMake/bin:/mnt/c/ProgramData/chocolatey/lib/Elixir/bin:/mnt/c/Program Files/qemu:/mnt/c/Flex Windows/gcc/bin:/mnt/c/Program Files/doxygen/bin:/mnt/d/Programs/ffmpeg/bin:/mnt/c/Program Files/Java/jdk1.8.0_211/bin:/mnt/c/Program Files/OpenJDK/openjdk-8u312-b07/bin:/mnt/c/Program Files/Docker/Docker/resources/bin:/mnt/c/ProgramData/DockerDesktop/version-bin:/mnt/d/Programs/tcc/win32:/mnt/c/Strawberry/c/bin:/mnt/c/Strawberry/perl/site/bin:/mnt/c/Strawberry/perl/bin:/mnt/c/Program Files/PostgreSQL/14/bin:/mnt/c/tools/winfetch:/mnt/c/Program Files/nodejs/:/mnt/d/Programs/v/cmd/tools/.bin:/mnt/d/Programs/v/.bin:/mnt/c/Users/brahmana/AppData/Roaming/local/bin:/mnt/c/Users/brahmana/AppData/Local/Programs/Python/Launcher:/mnt/c/Users/brahmana/AppData/Local/Programs/Python/Python39/Scripts:/mnt/c/Users/brahmana/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/brahmana/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Flex Windows/Lex/bin:/mnt/c/Program Files/heroku/bin:/mnt/c/Flex Windows/bison/bin:/mnt/c/Users/brahmana/.dotnet/tools:/mnt/c/Users/brahmana/AppData/Local/GitHubDesktop/bin:/mnt/c/Users/brahmana/go/bin:/mnt/c/Users/brahmana/AppData/Roaming/Composer/vendor/bin:/mnt/c/Program Files/OpenSSL-Win64/bin:/mnt/c/Users/brahmana/AppData/Roaming/cabal/bin:/mnt/c/tools/ghc-9.0.1/bin:/mnt/c/tools/msys64:/mnt/d/Projek/pscale:/mnt/c/tools/mysql/current/bin:/mnt/c/Users/brahmana/AppData/Roaming/npm:/snap/bin
+# 'override' directive (from 'GNUmakefile', line 27)
+LD := ld
+# 'override' directive (from 'GNUmakefile', line 70)
+ASMFILES := ./lib/io.s
+# environment
+NVM_BIN = /home/mengcode/.nvm/versions/node/v16.15.0/bin
+# environment
+VSCODE_LOG_STACK = false
+# environment
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-51d2b529-a3b5-4de0-b1c0-cc356ae3363f.sock
+# makefile (from 'GNUmakefile', line 33)
+LDFLAGS = 
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
+# environment
+LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+# automatic
+%F = $(notdir $%)
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+PWD = /home/mengcode/projek/OSeraX/v2/oserax_limine
+# default
+.LOADED := 
+# 'override' directive (from 'GNUmakefile', line 74)
+HEADER_DEPS2 := ./lib/io.d
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /home/mengcode
+# environment
+LESSCLOSE = /usr/bin/lesspipe %s %s
+# environment
+LOGNAME = mengcode
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# environment
+NVM_CD_FLAGS = 
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+MAKELEVEL := 1
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+SHLVL = 1
+# 'override' directive (from 'GNUmakefile', line 23)
+CC := clang
+# makefile (from 'GNUmakefile', line 3)
+KERNELDIR = kernel
+# default
+MAKE_VERSION := 4.2.1
+# environment
+USER = mengcode
+# 'override' directive (from 'GNUmakefile', line 62)
+INTERNALLDFLAGS := -Tlinker.ld -nostdlib -zmax-page-size=0x1000 -static
+# makefile
+.DEFAULT_GOAL := all
+# environment
+NAME = Code
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# 'override' directive (from 'GNUmakefile', line 72)
+OBJ2 := ./lib/io.o
+# environment
+VSCODE_WSL_EXT_LOCATION = /mnt/c/Users/brahmana/.vscode/extensions/ms-vscode-remote.remote-wsl-0.66.3
+# default
+MAKE_COMMAND := make
+# makefile (from 'GNUmakefile', line 5)
+LIBDIR = lib
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# makefile
+MAKEFLAGS = pqrRw
+# environment
+MFLAGS = -pqrRw
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+NVM_DIR = /home/mengcode/.nvm
+ 
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# automatic
++F = $(notdir $+)
+# environment
+VSCODE_HANDLES_SIGPIPE = true
+# 'override' directive
+.SHELLSTATUS := 0
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# environment
+LC_ALL = C
+# environment
+HOSTTYPE = x86_64
+# automatic
+^F = $(notdir $^)
+# default
+SUFFIXES := 
+# default
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+# default
+.RECIPEPREFIX := 
+# 'override' directive (from 'GNUmakefile', line 43)
+INTERNALCFLAGS := -I. -Ikernel/ -Imem/ -Ilib/ -Idrivers/display/ -std=c11 -ffreestanding -fno-stack-protector -fno-stack-check -fno-pic -fno-pie -mabi=sysv -mno-80387 -mno-mmx -mno-3dnow -mno-sse -mno-sse2 -mno-red-zone -mcmodel=kernel -MMD
+# environment
+LANG = C
+# environment
+TERM = xterm-256color
+# makefile (from 'GNUmakefile', line 6)
+MEMDIR = mem
+# environment
+VSCODE_EXTHOST_WILL_SEND_SOCKET = true
+# environment
+WSL_DISTRO_NAME = Ubuntu
+# environment
+MOTD_SHOWN = update-motd
+# variable set hash-table stats:
+# Load=90/1024=9%, Rehash=0, Collisions=7/162=4%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# lib (device 2, inode 15762598696202952): 9 files, no impossibilities.
+# mem (device 2, inode 170292360909985416): No files, no impossibilities so far.
+# kernel (device 2, inode 1970324838668783): No files, no impossibilities so far.
+# . (device 2, inode 13792273858940627): 4 files, no impossibilities so far.
+# drivers/display (device 2, inode 2533274792202790): No files, no impossibilities so far.
+
+# 13 files, no impossibilities in 5 directories.
+
+# Implicit Rules
+
+%.o: %.c limine.h
+#  recipe to execute (from 'GNUmakefile', line 90):
+	$(CC) $(CFLAGS) $(INTERNALCFLAGS) -c $< -o $@
+
+%.o: %.s
+#  recipe to execute (from 'GNUmakefile', line 94):
+	nasm -f elf64 $< -o $@
+
+# 2 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+lib/io.o: lib/io.s
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'lib/io'
+#  Last modified 2022-05-07 21:46:05.1368932
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'GNUmakefile', line 94):
+	nasm -f elf64 $< -o $@
+
+drivers/display/framebuffer.o: drivers/display/framebuffer.c limine.h drivers/display/framebuffer.c limine.h kernel/kernel.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'drivers/display/framebuffer'
+#  Last modified 2022-06-16 21:04:57.4048527
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'GNUmakefile', line 90):
+	$(CC) $(CFLAGS) $(INTERNALCFLAGS) -c $< -o $@
+
+all: kernel/kernel.elf
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Successfully updated.
+
+.PHONY: all clean distclean
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+kernel/kernel.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-16 21:50:40.2939417
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+mem/alloc.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-16 21:14:52.2853628
+#  File has been updated.
+#  Successfully updated.
+
+distclean: clean
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'GNUmakefile', line 103):
+	rm -f limine.h
+
+# Not a target:
+drivers/display/terminal.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-08 12:11:27.1080492
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+lib/string.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-06 23:07:58.9256028
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+mem/mem.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-16 20:40:26.6947876
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+drivers/display/terminal.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-08 11:31:22.1954597
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+lib/string.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-06 22:45:40.5723665
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+lib/io.s:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-07 20:52:12.4284143
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+mem/mem.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-16 20:42:32.1386887
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+drivers/display/framebuffer.c:
+#  Implicit rule search has been done.
+ 
+#  Last modified 2022-05-11 18:29:20.6992067
+#  File has been updated.
+#  Successfully updated.
+
+kernel/kernel.o: kernel/kernel.c limine.h kernel/kernel.c limine.h drivers/display/framebuffer.h drivers/display/terminal.h mem/alloc.h kernel/kernel.h lib/io.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'kernel/kernel'
+#  Last modified 2022-06-16 21:50:40.2929412
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'GNUmakefile', line 90):
+	$(CC) $(CFLAGS) $(INTERNALCFLAGS) -c $< -o $@
+
+mem/alloc.o: mem/alloc.c limine.h mem/alloc.c limine.h kernel/kernel.h mem/mem.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'mem/alloc'
+#  Last modified 2022-06-16 21:14:52.284362
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'GNUmakefile', line 90):
+	$(CC) $(CFLAGS) $(INTERNALCFLAGS) -c $< -o $@
+
+# Not a target:
+lib/io.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-07 20:50:46.7710113
+#  File has been updated.
+#  Successfully updated.
+
+limine.h:
+#  Implicit rule search has not been done.
+#  Last modified 2022-05-06 21:53:02.9479315
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'GNUmakefile', line 81):
+	curl https://raw.githubusercontent.com/limine-bootloader/limine/trunk/limine.h -o $@
+
+# Not a target:
+drivers/display/terminal.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-16 21:04:57.7298544
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+drivers/display/framebuffer.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-16 20:36:41.4413633
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+mem/mem.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-16 21:07:38.2986846
+#  File has been updated.
+#  Successfully updated.
+
+kernel/kernel.elf: drivers/display/framebuffer.o drivers/display/terminal.o kernel/kernel.o lib/string.o mem/alloc.o mem/mem.o lib/io.o
+#  Implicit rule search has not been done.
+#  Last modified 2022-06-16 21:50:40.3289387
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'GNUmakefile', line 85):
+	$(LD) $(OBJ) $(OBJ2) $(LDFLAGS) $(INTERNALLDFLAGS) -o $@
+
+clean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'GNUmakefile', line 99):
+	rm -rf $(KERNEL) $(OBJ) $(HEADER_DEPS)
+
+# Not a target:
+lib/io.d:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# Not a target:
+GNUmakefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-16 20:38:32.4518582
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+kernel/kernel.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-16 21:49:07.015607
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+drivers/display/framebuffer.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-16 21:04:57.4059834
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+mem/alloc.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-16 21:14:49.745758
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+lib/string.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-08 12:06:14.6340733
+#  File has been updated.
+#  Successfully updated.
+
+drivers/display/terminal.o: drivers/display/terminal.c limine.h drivers/display/terminal.c limine.h kernel/kernel.h lib/string.h drivers/display/terminal.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'drivers/display/terminal'
+#  Last modified 2022-06-16 21:04:57.728853
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'GNUmakefile', line 90):
+	$(CC) $(CFLAGS) $(INTERNALCFLAGS) -c $< -o $@
+
+lib/string.o: lib/string.c limine.h lib/string.c drivers/display/terminal.h limine.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'lib/string'
+#  Last modified 2022-05-08 12:06:14.6330763
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'GNUmakefile', line 90):
+	$(CC) $(CFLAGS) $(INTERNALCFLAGS) -c $< -o $@
+
+mem/mem.o: mem/mem.c limine.h mem/mem.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'mem/mem'
+#  Last modified 2022-06-16 21:07:38.2966892
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'GNUmakefile', line 90):
+	$(CC) $(CFLAGS) $(INTERNALCFLAGS) -c $< -o $@
+
+# Not a target:
+kernel/kernel.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-16 21:04:53.8435078
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+mem/alloc.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-16 21:09:16.0297719
+#  File has been updated.
+#  Successfully updated.
+
+# files hash-table stats:
+# Load=37/1024=4%, Rehash=0, Collisions=2/125=2%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 65 / storage = 808 B / avg = 12 B
+# current buf: size = 8162 B / used = 808 B / count = 65 / avg = 12 B
+
+# strcache performance: lookups = 141 / hit rate = 53%
+# hash-table stats:
+# Load=65/8192=1%, Rehash=0, Collisions=5/141=4%
+# Finished Make data base on Thu Jun 16 21:51:05 2022
+
+# make[1]: Leaving directory '/home/mengcode/projek/OSeraX/v2/oserax_limine/src'
+ 
+# GNU Make 4.2.1
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Thu Jun 16 21:51:05 2022
+
+# Variables
+
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# environment
+WSLENV = ELECTRON_RUN_AS_NODE/w:
+# default
+.SHELLFLAGS := -c
+# makefile (from 'GNUmakefile', line 10)
+QEMU = qemu-system-x86_64
+# environment
+VSCODE_LOG_NATIVE = false
+# environment
+NVM_INC = /home/mengcode/.nvm/versions/node/v16.15.0/include/node
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# automatic
+@F = $(notdir $@)
+# makefile
+CURDIR := /home/mengcode/projek/OSeraX/v2/oserax_limine
+# makefile
+SHELL = /bin/sh
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
+# environment
+_ = /mnt/c/Users/brahmana/AppData/Local/Programs/Microsoft VS Code/bin/code
+# makefile (from 'GNUmakefile', line 3)
+STYLEDIR = $(SOURCEDIR)/style
+# makefile (from 'GNUmakefile', line 5)
+KERNEL := src/kernel/kernel.elf
+# makefile (from 'GNUmakefile', line 1)
+MAKEFILE_LIST :=  GNUmakefile
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+XDG_DATA_DIRS = /usr/local/share:/usr/share:/var/lib/snapd/desktop
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# makefile (from 'GNUmakefile', line 7)
+UNIFONTBIN = $(STYLEDIR)/unifont.bin
+# environment
+LESSOPEN = | /usr/bin/lesspipe %s
+# environment
+VSCODE_CWD = /mnt/c/Users/brahmana/AppData/Local/Programs/Microsoft VS Code
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+PATH = /home/mengcode/.vscode-server/bin/30d9c6cd9483b2cc586687151bcbcd635f373630/bin/remote-cli:/home/mengcode/.local/bin:/home/mengcode/.nvm/versions/node/v16.15.0/bin:/home/mengcode/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/Program Files/WindowsApps/CanonicalGroupLimited.Ubuntu_2004.4.4.0_x64__79rhkp1fndgsc:/mnt/c/Python27/:/mnt/c/Python27/Scripts:/mnt/c/Python310/Scripts/:/mnt/c/Python310/:/mnt/c/tools/ruby30/bin:/mnt/c/Program Files/Conan/conan:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Java/jdk-15.0.1/bin:/mnt/f/Program Files/bin:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/Microsoft SQL Server/130/Tools/Binn/:/mnt/c/ProgramData/chocolatey/bin:/mnt/d/Projek/Node-Compiler/Python-Javanese:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files (x86)/Lua/5.1:/mnt/c/Program Files (x86)/Lua/5.1/clibs:/mnt/c/Program Files/Go/bin:/mnt/c/Program Files/NASM:/mnt/d/vcpkg-master:/mnt/c/tools/php80:/mnt/c/ProgramData/ComposerSetup/bin:/mnt/d/Projek/Discordia-Scanner:/mnt/d/Projek/flutter-test/flutter/bin:/mnt/d/Projek/node-gblk/bin:/mnt/d/Programs/StrawberryPerl/perl/bin:/mnt/c/Program Files/vcpkg:/mnt/c/Program Files/CMake/bin:/mnt/c/ProgramData/chocolatey/lib/Elixir/bin:/mnt/c/Program Files/qemu:/mnt/c/Flex Windows/gcc/bin:/mnt/c/Program Files/doxygen/bin:/mnt/d/Programs/ffmpeg/bin:/mnt/c/Program Files/Java/jdk1.8.0_211/bin:/mnt/c/Program Files/OpenJDK/openjdk-8u312-b07/bin:/mnt/c/Program Files/Docker/Docker/resources/bin:/mnt/c/ProgramData/DockerDesktop/version-bin:/mnt/d/Programs/tcc/win32:/mnt/c/Strawberry/c/bin:/mnt/c/Strawberry/perl/site/bin:/mnt/c/Strawberry/perl/bin:/mnt/c/Program Files/PostgreSQL/14/bin:/mnt/c/tools/winfetch:/mnt/c/Program Files/nodejs/:/mnt/d/Programs/v/cmd/tools/.bin:/mnt/d/Programs/v/.bin:/mnt/c/Users/brahmana/AppData/Roaming/local/bin:/mnt/c/Users/brahmana/AppData/Local/Programs/Python/Launcher:/mnt/c/Users/brahmana/AppData/Local/Programs/Python/Python39/Scripts:/mnt/c/Users/brahmana/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/brahmana/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Flex Windows/Lex/bin:/mnt/c/Program Files/heroku/bin:/mnt/c/Flex Windows/bison/bin:/mnt/c/Users/brahmana/.dotnet/tools:/mnt/c/Users/brahmana/AppData/Local/GitHubDesktop/bin:/mnt/c/Users/brahmana/go/bin:/mnt/c/Users/brahmana/AppData/Roaming/Composer/vendor/bin:/mnt/c/Program Files/OpenSSL-Win64/bin:/mnt/c/Users/brahmana/AppData/Roaming/cabal/bin:/mnt/c/tools/ghc-9.0.1/bin:/mnt/c/tools/msys64:/mnt/d/Projek/pscale:/mnt/c/tools/mysql/current/bin:/mnt/c/Users/brahmana/AppData/Roaming/npm:/snap/bin
+# makefile (from 'GNUmakefile', line 11)
+QEMUF = -M q35 -serial stdio -m 2G -cdrom oserax.iso -boot d
+# environment
+NVM_BIN = /home/mengcode/.nvm/versions/node/v16.15.0/bin
+# environment
+VSCODE_LOG_STACK = false
+# environment
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-51d2b529-a3b5-4de0-b1c0-cc356ae3363f.sock
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
+# environment
+LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+# automatic
+%F = $(notdir $%)
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+PWD = /home/mengcode/projek/OSeraX/v2/oserax_limine
+# default
+.LOADED := 
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /home/mengcode
+# environment
+LESSCLOSE = /usr/bin/lesspipe %s %s
+# environment
+LOGNAME = mengcode
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# environment
+NVM_CD_FLAGS = 
+# makefile (from 'GNUmakefile', line 8)
+UNIFONTSLN = $(STYLEDIR)/unifont.sfn
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+SHLVL = 1
+# makefile (from 'GNUmakefile', line 2)
+KERNELDIR = $(SOURCEDIR)/kernel
+# default
+MAKE_VERSION := 4.2.1
+ 
+# environment
+USER = mengcode
+# makefile
+.DEFAULT_GOAL := all
+# environment
+NAME = Code
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+VSCODE_WSL_EXT_LOCATION = /mnt/c/Users/brahmana/.vscode/extensions/ms-vscode-remote.remote-wsl-0.66.3
+# default
+MAKE_COMMAND := make
+# makefile (from 'GNUmakefile', line 6)
+BACKROUND = $(STYLEDIR)/purple_esthetic_wallpaper.bmp
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# makefile
+MAKEFLAGS = pqrR
+# environment
+MFLAGS = -pqrR
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+NVM_DIR = /home/mengcode/.nvm
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# automatic
++F = $(notdir $+)
+# environment
+VSCODE_HANDLES_SIGPIPE = true
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# environment
+LC_ALL = C
+# environment
+HOSTTYPE = x86_64
+# automatic
+^F = $(notdir $^)
+# default
+SUFFIXES := 
+# default
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+# default
+.RECIPEPREFIX := 
+# environment
+LANG = C
+# environment
+TERM = xterm-256color
+# makefile (from 'GNUmakefile', line 1)
+SOURCEDIR = src
+# environment
+VSCODE_EXTHOST_WILL_SEND_SOCKET = true
+# environment
+WSL_DISTRO_NAME = Ubuntu
+# environment
+MOTD_SHOWN = update-motd
+# variable set hash-table stats:
+# Load=80/1024=8%, Rehash=0, Collisions=4/128=3%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 2, inode 1970324838668628): 5 files, no impossibilities so far.
+
+# 5 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+limine:
+#  Implicit rule search has not been done.
+#  Last modified 2022-04-24 03:20:20.2890553
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'GNUmakefile', line 41):
+	git clone https://github.com/limine-bootloader/limine.git --branch=v3.0-branch-binary --depth=1
+	make -C limine
+
+run-uefi: ovmf-x64 oserax.iso
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'GNUmakefile', line 25):
+	$(QEMU) $(QEMUF) -bios ovmf-x64/OVMF.fd
+
+run-hdd: oserax.hdd
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'GNUmakefile', line 30):
+	$(QEMU) -M q35 -serial stdio -m 2G -hda oserax.hdd
+
+all: oserax.iso
+#  Phony target (prerequisite of .PHONY).
+#  Command line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/19=0%
+
+oserax.hdd: limine kernel
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'GNUmakefile', line 64):
+	rm -f oserax.hdd
+	dd if=/dev/zero bs=1M count=0 seek=64 of=oserax.hdd
+ 
+	parted -s oserax.hdd mklabel gpt
+	parted -s oserax.hdd mkpart ESP fat32 2048s 100%
+	parted -s oserax.hdd set 1 esp on
+	limine/limine-deploy oserax.hdd
+	sudo losetup -Pf --show oserax.hdd >loopback_dev
+	sudo mkfs.fat -F 32 `cat loopback_dev`p1
+	mkdir -p img_mount
+	sudo mount `cat loopback_dev`p1 img_mount
+	sudo mkdir -p img_mount/EFI/BOOT
+	sudo cp -v $(KERNELDIR)/kernel.elf limine.cfg limine/limine.sys img_mount/
+	sudo cp -v limine/BOOTX64.EFI img_mount/EFI/BOOT/
+	sync
+	sudo umount img_mount
+	sudo losetup -d `cat loopback_dev`
+	rm -rf loopback_dev img_mount
+
+.PHONY: all all-hdd run run-uefi run-hdd run-hdd-uefi src/kernel clean distclean
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+distclean: clean
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'GNUmakefile', line 89):
+	rm -rf limine ovmf-x64
+	$(MAKE) -C $(SOURCEDIR) distclean
+
+oserax.iso: limine kernel
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: ''
+#  Last modified 2022-06-16 21:50:40.5505072
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := oserax.iso
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := limine kernel
+# automatic
+# | := 
+# automatic
+# < := limine
+# automatic
+# ^ := limine kernel
+# automatic
+# ? := kernel
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=7/27=26%
+#  recipe to execute (from 'GNUmakefile', line 49):
+	rm -rf iso_root
+	mkdir -p iso_root
+	cp $(KERNEL) \
+		limine.cfg limine/limine.sys limine/limine-cd.bin \
+		limine/limine-cd-efi.bin \
+		$(BACKROUND) $(UNIFONTBIN) $(UNIFONTSLN) iso_root/
+	xorriso -as mkisofs -b limine-cd.bin \
+		-no-emul-boot -boot-load-size 4 -boot-info-table \
+		--efi-boot limine-cd-efi.bin \
+		-efi-boot-part --efi-boot-image --protective-msdos-label \
+		iso_root -o oserax.iso
+	limine/limine-deploy oserax.iso
+	rm -rf iso_root
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+kernel:
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: ''
+#  File does not exist.
+#  File has been updated.
+#  Successfully updated.
+# automatic
+# @ := kernel
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := 
+# automatic
+# | := 
+# automatic
+# < := 
+# automatic
+# ^ := 
+# automatic
+# ? := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=3/14=21%
+#  recipe to execute (from 'GNUmakefile', line 46):
+	$(MAKE) -C $(SOURCEDIR)
+
+ovmf-x64:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'GNUmakefile', line 37):
+	mkdir -p ovmf-x64
+	cd ovmf-x64 && curl -o OVMF-X64.zip https://efi.akeo.ie/OVMF/OVMF-X64.zip && 7z x OVMF-X64.zip
+
+run-hdd-uefi: ovmf-x64 oserax.hdd
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'GNUmakefile', line 34):
+	$(QEMU) -M q35 -serial stdio -m 2G -bios ovmf-x64/OVMF.fd -hda oserax.hdd
+
+all-hdd: oserax.hdd
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/kernel:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+run: oserax.iso
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'GNUmakefile', line 21):
+	$(QEMU) $(QEMUF)
+
+clean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'GNUmakefile', line 84):
+	rm -rf iso_root oserax.iso oserax.hdd
+	$(MAKE) -C $(SOURCEDIR) clean
+
+# Not a target:
+GNUmakefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-16 21:50:35.6733012
+#  File has been updated.
+#  Successfully updated.
+
+# files hash-table stats:
+# Load=18/1024=2%, Rehash=0, Collisions=1/71=1%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 24 / storage = 206 B / avg = 8 B
+# current buf: size = 8162 B / used = 206 B / count = 24 / avg = 8 B
+
+# strcache performance: lookups = 82 / hit rate = 70%
+# hash-table stats:
+# Load=24/8192=0%, Rehash=0, Collisions=1/82=1%
+# Finished Make data base on Thu Jun 16 21:51:05 2022
+
+ 

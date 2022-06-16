@@ -69,6 +69,21 @@ void terminal_printc(char c) {
     _terminal_printc(c, default_trm);
 }
 
+void terminal_println(const char *str) {
+    char destnl[sizeof(str) + 1]; // "<str>\n\0"
+    strcat(destnl, str);
+    strcat(destnl, "\n");
+    //terminal_printi(strlen(str));
+    _terminal_print(destnl, default_trm);
+}
+
+void terminal_print_info(const char *str)
+{
+    char sos[sizeof(str) + sizeof("\033[0;34m[INFO]:\033[0m ") + 1];
+    strcat(sos, "\033[0;34m[INFO]:\033[0m ");
+    strcat(sos, str);
+    terminal_println(sos);
+}
 
 
 
@@ -134,6 +149,7 @@ void terminal_cursor_left(int lines, struct limine_terminal *term)
 
 
 void terminal_callback(struct limine_terminal *term, uint64_t type, uint64_t first, uint64_t second, uint64_t third) {
+    terminal_printi(type);
     switch (type) {
         case LIMINE_TERMINAL_CB_KBD_LEDS:
             terminal_print("\nled");

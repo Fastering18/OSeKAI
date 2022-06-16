@@ -3,7 +3,7 @@ KERNELDIR = $(SOURCEDIR)/kernel
 STYLEDIR = $(SOURCEDIR)/style
 
 KERNEL := $(KERNELDIR)/kernel.elf
-BACKROUND = $(STYLEDIR)/amongus.bmp
+BACKROUND = $(STYLEDIR)/purple_esthetic_wallpaper.bmp
 UNIFONTBIN = $(STYLEDIR)/unifont.bin
 UNIFONTSLN = $(STYLEDIR)/unifont.sfn
 

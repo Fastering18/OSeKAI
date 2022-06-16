@@ -20,6 +20,10 @@ extern void terminal_printi(int num);
 extern void _terminal_printc(char c, struct limine_terminal *term);
 extern void terminal_printc(char c);
 
+extern void terminal_println(const char *str);
+extern void terminal_print_info(const char *str);
+
+
 extern void _terminal_reset(struct limine_terminal *term);
 extern void terminal_reset();
 extern void _terminal_clear(const char *ansii_colour, struct limine_terminal *term);

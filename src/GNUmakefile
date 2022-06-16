@@ -2,7 +2,8 @@
 # Change as needed.
 KERNELDIR = kernel
 DRIVERSDIR = drivers
-LIBDIR = drivers
+LIBDIR = lib
+MEMDIR = mem
 
 override KERNEL := $(KERNELDIR)/kernel.elf
 
@@ -34,6 +35,7 @@ LDFLAGS ?=
 INCLUDES :=                  \
     -I.                      \
     -I$(KERNELDIR)/          \
+	-I$(MEMDIR)/			 \
 	-I$(LIBDIR)/             \
 	-I$(DRIVERSDIR)/display/
 
@@ -65,8 +67,11 @@ override INTERNALLDFLAGS :=    \
 
 # Use find to glob all *.c files in the directory and extract the object names.
 override CFILES := $(shell find ./ -type f -name '*.c')
+override ASMFILES := $(shell find ./ -type f -name '*.s')
 override OBJ := $(CFILES:.c=.o)
+override OBJ2 := $(ASMFILES:.s=.o)
 override HEADER_DEPS := $(CFILES:.c=.d)
+override HEADER_DEPS2 := $(ASMFILES:.s=.d)
 
 # Default target.
 .PHONY: all
@@ -76,13 +81,17 @@ limine.h:
 	curl https://raw.githubusercontent.com/limine-bootloader/limine/trunk/limine.h -o $@
 
 # Link rules for the final kernel executable.
-$(KERNEL): $(OBJ)
-	$(LD) $(OBJ) $(LDFLAGS) $(INTERNALLDFLAGS) -o $@
+$(KERNEL): $(OBJ) $(OBJ2)
+	$(LD) $(OBJ) $(OBJ2) $(LDFLAGS) $(INTERNALLDFLAGS) -o $@
 
 # Compilation rules for *.c files.
--include $(HEADER_DEPS)
+-include $(HEADER_DEPS) $(HEADER_DEPS2)
 %.o: %.c limine.h
 	$(CC) $(CFLAGS) $(INTERNALCFLAGS) -c $< -o $@
+
+# Compilation rules for *.s files.
+%.o: %.s
+	nasm -f elf64 $< -o $@
 
 # Remove object files and the final executable.
 .PHONY: clean
