@@ -191,6 +191,7 @@ void _start(void)
   ");
     terminal_print("\n\033[1;37mOperasi Sistem e Karya Anak Indonesia\033[0m\n");
 
+    // IDT interrupt test
     __asm__("int $0x20");
     // hang...
     done();

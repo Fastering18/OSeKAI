@@ -1,5 +1,7 @@
 .vscode
 null.d
+limine
+ovmf-x64
 loopback_dev
 *.o
 *.d
