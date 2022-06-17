@@ -2,6 +2,7 @@
     "files.associations": {
         "limine.h": "c",
         "stdint.h": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "stddef.h": "c"
     }
 }

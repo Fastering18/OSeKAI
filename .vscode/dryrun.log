@@ -1,11 +1,11 @@
 make --dry-run --keep-going --print-directory
-make: Entering directory '/home/mengcode/projek/OSeraX/v2/oserax_limine'
+make: Entering directory '/home/mengcode/projek/OSeraX/v2/OSeKAI_limine'
 make -C src
  
-make[1]: Entering directory '/home/mengcode/projek/OSeraX/v2/oserax_limine/src'
+make[1]: Entering directory '/home/mengcode/projek/OSeraX/v2/OSeKAI_limine/src'
  
 make[1]: Nothing to be done for 'all'.
-make[1]: Leaving directory '/home/mengcode/projek/OSeraX/v2/oserax_limine/src'
+make[1]: Leaving directory '/home/mengcode/projek/OSeraX/v2/OSeKAI_limine/src'
 rm -rf iso_root
 mkdir -p iso_root
 cp src/kernel/kernel.elf \
@@ -19,5 +19,5 @@ xorriso -as mkisofs -b limine-cd.bin \
 	iso_root -o oserax.iso
 limine/limine-deploy oserax.iso
 rm -rf iso_root
-make: Leaving directory '/home/mengcode/projek/OSeraX/v2/oserax_limine'
+make: Leaving directory '/home/mengcode/projek/OSeraX/v2/OSeKAI_limine'
  

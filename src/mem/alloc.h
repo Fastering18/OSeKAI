@@ -1,5 +1,5 @@
 #ifndef H_ALLOC
-#define H_ALLOC
+#define H_ALLOC 1
 
 #include <limine.h>
 

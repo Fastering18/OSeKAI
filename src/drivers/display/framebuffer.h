@@ -1,3 +1,6 @@
+#ifndef H_FRAMEBUFFERDRIVER
+#define H_FRAMEBUFFERDRIVER 1
+
 #include <limine.h>
 
 extern struct limine_framebuffer **framebuffers;
@@ -12,3 +15,5 @@ void drawvertline(uint32_t x, uint32_t y, uint32_t dy, uint32_t colour);
 void drawhoriline(uint32_t x, uint32_t y, uint32_t dx, uint32_t colour);
 
 void framebuffer_init();
+
+#endif

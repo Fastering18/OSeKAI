@@ -1,3 +1,6 @@
+#ifndef H_TERMINALDRIVER
+#define H_TERMINALDRIVER 1
+
 #define PRINTF_ALIAS_STANDARD_FUNCTION_NAMES 1
 #include <limine.h>
 #include <stdbool.h>
@@ -33,3 +36,5 @@ extern void terminal_clear(const char *ansii_colour);
 extern void terminal_callback(struct limine_terminal *term, uint64_t type, uint64_t first, uint64_t second, uint64_t third);
 
 extern void terminal_init();
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef H_STRINGLIB
+#define H_STRINGLIB 1
+
 #include <terminal.h>
 #include <stddef.h>
 
@@ -12,3 +15,5 @@ extern int strcmp(const char *a, const char *b);
 extern int strncmp(const char *a, const char *b, size_t n);
 
 extern void strrev(unsigned char *str);
+
+#endif
