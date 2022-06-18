@@ -27,7 +27,7 @@ $(eval $(call DEFAULT_VAR,CC,clang))
 $(eval $(call DEFAULT_VAR,LD,ld))
 
 # User controllable CFLAGS.
-CFLAGS ?= -O3 -g -Wall -Wextra -pipe
+CFLAGS ?= -Ofast -g -Wall -Wextra -pipe
 
 # User controllable linker flags. We set none by default.
 LDFLAGS ?=
@@ -57,7 +57,7 @@ override INTERNALCFLAGS :=   \
 	-mno-sse2            \
 	-mno-red-zone        \
 	-mcmodel=kernel      \
-	-MMD
+	-MMD				 
 
 # Internal linker flags that should not be changed by the user.
 override INTERNALLDFLAGS :=    \

@@ -8,7 +8,10 @@ UNIFONTBIN = $(STYLEDIR)/unifont.bin
 UNIFONTSLN = $(STYLEDIR)/unifont.sfn
 
 QEMU = qemu-system-x86_64
-QEMUF = -M q35 -serial stdio -m 2G -cdrom oserax.iso -boot d
+QEMUF = -M q35 -serial stdio       \
+        -cdrom oserax.iso -boot d  \
+		-cpu max -smp 4 -m 512M	   \
+		-device isa-debug-exit,iobase=0xf4,iosize=0x04
 
 .PHONY: all
 all: oserax.iso

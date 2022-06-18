@@ -1,5 +1,5 @@
 export DISPLAY=:0
-qemu-system-x86_64 -boot d -cdrom oserax.iso -m 512
+qemu-system-x86_64 -M q35 -serial stdio -m 2G -cdrom oserax.iso -boot d
 
 # git add .
 # git commit -m ""

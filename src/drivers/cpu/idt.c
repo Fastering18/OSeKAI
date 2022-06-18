@@ -1,18 +1,7 @@
 #include <stdint.h>
 #include <stddef.h>
-
-#define GDT_OFFSET_KERNEL_CODE 0x28
-#define IDT_MAX_DESCRIPTORS 256
-
-typedef struct {
-   uint16_t base_low;        // offset bits 0..15
-   uint16_t cs;        // a code segment selector in GDT or LDT
-   uint8_t  ist;             // bits 0..2 holds Interrupt Stack Table offset, rest of bits zero.
-   uint8_t  attributes; // gate type, dpl, and p fields
-   uint16_t base_mid;        // offset bits 16..31
-   uint32_t base_high;        // offset bits 32..63
-   uint32_t rsv0;            // reserved
-} __attribute__((packed)) idt_desc_t;
+#include "idt.h"
+#include "io.h"
 
 typedef struct {
 	uint16_t    isr_low;      // The lower 16 bits of the ISR's address
@@ -43,23 +32,62 @@ __attribute__((aligned(0x10)))
 static idt_entry_t idt[256]; // Create an array of IDT entries; aligned for performance
 static idtr_t idtr;
 
+static const char *exception_messages[32] = {
+    "Division by zero",
+    "Debug",
+    "Non-maskable interrupt",
+    "Breakpoint",
+    "Detected overflow",
+    "Out-of-bounds",
+    "Invalid opcode",
+    "No coprocessor",
+    "Double fault",
+    "Coprocessor segment overrun",
+    "Bad TSS",
+    "Segment not present",
+    "Stack fault",
+    "General protection fault",
+    "Page fault",
+    "Unknown interrupt",
+    "Coprocessor fault",
+    "Alignment check",
+    "Machine check",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+};
+
 void pit_handler(struct registers_t *regs)
 {
-    terminal_printi(1);
+    terminal_print("_PIT_");
     pic_sendEOI(0);
 }
 
 void kbd_handler(struct registers_t *regs)
 {
     uint8_t scancode = inb(0x60);
+    terminal_print("\nkeyboard: ");
     terminal_printi(scancode);
 }
 
-__attribute__((noreturn))
 void interrupt_handler(struct registers_t* regs) {
-   terminal_print("INTERRUPT: ");
+   terminal_print("\nINTERRUPT: ");
    terminal_printi(regs->int_no);
-   if (regs->int_no < 31) __asm__ volatile("cli; hlt");
+   terminal_print(" (");
+   terminal_print(regs->int_no < 31 ? exception_messages[regs->int_no] : "Non-Error");
+   terminal_print(")");
+
+   if (regs->int_no < 32) __asm__ volatile("cli; hlt");
    else if (interrupt_handlers[regs->int_no]) interrupt_handlers[regs->int_no](regs);
    if (regs->int_no >= 40) outb(0xA0, 0x20);
 
@@ -67,32 +95,32 @@ void interrupt_handler(struct registers_t* regs) {
 }
 
 void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags) {
-    idt_desc_t* descriptor = &idt[vector];
+    idt_entry_t* descriptor = &idt[vector];
  
-    descriptor->base_low       = (uint64_t)isr; //& 0xFFFF;
-    descriptor->cs             = GDT_OFFSET_KERNEL_CODE;
-    descriptor->ist            = 0;
-    descriptor->attributes     = flags;
-    descriptor->base_mid       = ((uint64_t)isr >> 16);// & 0xFFFF;
-    descriptor->base_high      = ((uint64_t)isr >> 32);// & 0xFFFFFFFF;
-    descriptor->rsv0           = 0;
+    descriptor->isr_low         = (uint64_t)isr & 0xFFFF;
+    descriptor->kernel_cs       = GDT_OFFSET_KERNEL_CODE;
+    descriptor->ist             = 0;
+    descriptor->attributes      = flags;
+    descriptor->isr_mid         = ((uint64_t)isr >> 16) & 0xFFFF;
+    descriptor->isr_high        = ((uint64_t)isr >> 32) & 0xFFFFFFFF;
+    descriptor->reserved        = 0;
 }
 
 
-extern void* isr_stub_table[];
+extern void* int_table[];
  
 void idt_init() {
     idtr.base = (uintptr_t)&idt[0];
-    idtr.limit = (uint16_t)sizeof(idt_desc_t) * IDT_MAX_DESCRIPTORS - 1;
+    idtr.limit = sizeof(idt_entry_t) * IDT_MAX_DESCRIPTORS - 1;
 
     interrupt_handlers[0x20] = pit_handler;
     interrupt_handlers[0x21] = kbd_handler;
  
     for (size_t i = 0; i < IDT_MAX_DESCRIPTORS; i++) {
-        idt_set_descriptor(i, isr_stub_table[i], 0x8E);
+        idt_set_descriptor(i, int_table[i], 0x8E);
         //vectors[vector] = true;
     }
-
+    idt_set_descriptor(SYSCALL, int_table[SYSCALL], 0xEE);
     //pic_unmask(1);
  
     //__asm__ volatile ("lidt %0" : : "m"(idtr)); // load the new IDT
@@ -105,6 +133,6 @@ void enable_interrupt() {
 void idt_reload()
 {
     __asm__ volatile ("cli");
-    __asm__ volatile ("lidt %0" : : "memory"(idtr));
+    __asm__ volatile ("lidt %0" : : "m"(idtr));
     __asm__ volatile ("sti");
 }

@@ -3,7 +3,6 @@ make: Entering directory '/home/mengcode/projek/OSeraX/v2/OSeKAI_limine'
 make -C src
  
 make[1]: Entering directory '/home/mengcode/projek/OSeraX/v2/OSeKAI_limine/src'
- 
 make[1]: Nothing to be done for 'all'.
 make[1]: Leaving directory '/home/mengcode/projek/OSeraX/v2/OSeKAI_limine/src'
 rm -rf iso_root

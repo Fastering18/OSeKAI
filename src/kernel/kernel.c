@@ -6,6 +6,7 @@
 #include <alloc.h>
 #include <kernel.h>
 #include <idt.h>
+#include <pic.h>
 #include "io.h"
 
 uint8_t *kernel_stack;
@@ -124,37 +125,73 @@ struct RSDP
     uint8_t reserved[3];
 };
 
+void write_cr(uint64_t reg, uint64_t val)
+{
+    switch (reg)
+    {
+        case 0:
+            __asm__ volatile ("mov %0, %%cr0" :: "r" (val) : "memory");
+            break;
+        case 2:
+            __asm__ volatile ("mov %0, %%cr2" :: "r" (val) : "memory");
+            break;
+        case 3:
+            __asm__ volatile ("mov %0, %%cr3" :: "r" (val) : "memory");
+            break;
+        case 4:
+            __asm__ volatile ("mov %0, %%cr4" :: "r" (val) : "memory");
+            break;
+    }
+}
+
+uint64_t read_cr(uint64_t reg)
+{
+    uint64_t cr;
+    switch (reg)
+    {
+        case 0:
+            __asm__ volatile ("mov %%cr0, %0" : "=r" (cr) :: "memory");
+            break;
+        case 2:
+            __asm__ volatile ("mov %%cr2, %0" : "=r" (cr) :: "memory");
+            break;
+        case 3:
+            __asm__ volatile ("mov %%cr3, %0" : "=r" (cr) :: "memory");
+            break;
+        case 4:
+            __asm__ volatile ("mov %%cr4, %0" : "=r" (cr) :: "memory");
+            break;
+    }
+    return cr;
+}
+
+void enableSSE()
+{
+    write_cr(0, (read_cr(0) & ~(1 << 2)) | (1 << 1));
+    write_cr(4, read_cr(4) | (3 << 9));
+}
+
 // kernel's entry point.
 void _start(void)
 {
     __asm__("movq %%rsp, %0"
             : "=r"(kernel_stack));
+    enableSSE();
 
     // Ensure we got a terminal
-    if (terminal_request.response == NULL || terminal_request.response->terminal_count < 1)
-    {
-        done();
-    }
+    if (terminal_request.response == NULL || terminal_request.response->terminal_count < 1) done();
+
+    framebuffer_init();
+    terminal_init();
 
     idt_init();
     pic_init();
-    framebuffer_init();
-    terminal_init();
+    idt_reload();
+
     // pic_unmask(0);
     // pic_unmask(12);
     mem_init();
-
-    /*outb(0x20, 0x11);
-    outb(0xA0, 0x11);
-    outb(0x21, 0x20);
-    outb(0xA1, 0x28);
-    outb(0x21, 0x04);
-    outb(0xA1, 0x02);
-    outb(0x21, 0x01);
-    outb(0xA1, 0x01);
-    outb(0x21, 0x00);
-    outb(0xA1, 0x00);*/
-    idt_reload();
+    
 
     int seperlapan = framebuffer_request.response->framebuffers[0]->height / 8;
     for (int x = seperlapan; x < framebuffer_request.response->framebuffers[0]->height - seperlapan; x++)
@@ -192,7 +229,8 @@ void _start(void)
     terminal_print("\n\033[1;37mOperasi Sistem e Karya Anak Indonesia\033[0m\n");
 
     // IDT interrupt test
-    __asm__("int $0x20");
+    __asm__("int $0x10");
+
     // hang...
     done();
 }
