@@ -6,9 +6,11 @@
 ## Todo list
 - [x] Terminals & Framebuffers
 - [x] GDT
-- [ ] IDT
+- [x] IDT
 - [ ] PIC
-- [ ] PIT & Keyboard handler
+- - [ ] PIT
+- - [ ] Keyboard
+- - [ ] Mouse
 
 <hr>
 
