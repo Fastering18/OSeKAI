@@ -24,8 +24,9 @@ void mem_init() {
     }
     uint64_t pmm_avl_page_count = highestaddr / MEM_PAGE_SIZE;
     uint64_t bitmap_size = align_up(pmm_avl_page_count / 8, MEM_PAGE_SIZE);
-    terminal_print("Bitmap size: ");
+    terminal_print("|- Bitmap size: ");
     terminal_printi(bitmap_size);
+    terminal_print("\n");
 
     for (uint64_t i = 0; i < memmap->entry_count; i++) {
         if (memmap->entries[i]->type != LIMINE_MEMMAP_USABLE) {
@@ -53,6 +54,7 @@ void mem_init() {
         }
     }
 
-    terminal_print("\nFree pages: ");
+    terminal_print("|- Free pages: ");
     terminal_printi(FREE_PAGES);
+    terminal_print("\n");
 }

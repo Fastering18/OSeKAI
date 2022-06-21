@@ -7,13 +7,12 @@
 #include <kernel.h>
 #include <idt.h>
 #include <pic.h>
+#include <serial.h>
 #include "io.h"
 
 uint8_t *kernel_stack;
 
-// The Limine requests can be placed anywhere, but it is important that
-// the compiler does not optimise them away, so, usually, they should
-// be made volatile or equivalent.
+
 #if LVL5_PAGING
 volatile struct limine_5_level_paging_request _5_level_paging_request =
     {
@@ -165,10 +164,23 @@ uint64_t read_cr(uint64_t reg)
     return cr;
 }
 
+// enable SSE
 void enableSSE()
 {
     write_cr(0, (read_cr(0) & ~(1 << 2)) | (1 << 1));
     write_cr(4, read_cr(4) | (3 << 9));
+}
+
+// enable SMEP
+void enableSMEP()
+{
+    write_cr(4, read_cr(4) | (1 << 20));
+}
+
+// enable SMAP
+void enableSMAP()
+{
+    write_cr(4, read_cr(4) | (1 << 21));
 }
 
 // kernel's entry point.
@@ -176,60 +188,78 @@ void _start(void)
 {
     __asm__("movq %%rsp, %0"
             : "=r"(kernel_stack));
-    enableSSE();
+    //enableSSE();
+    //enableSMEP();
+    //enableSMAP();
 
     // Ensure we got a terminal
     if (terminal_request.response == NULL || terminal_request.response->terminal_count < 1) done();
 
+    // welcome in host OS (serial)
+    serial_print("\nWelcome to OSeKAI\n");
+    serial_print("github project: https://github.com/Fastering18/OSeKAI\n");
+
+    // initilaize framebuffer & terminal
     framebuffer_init();
     terminal_init();
 
+    terminal_print("Welcome to OSeKAI\n");
+    terminal_print("Project github.com/Fastering18/OSeKAI\n\n");
+
+    // initialize IDT
     idt_init();
+    terminal_print("- IDT initialized\n");
+
+    // initialize pic
     pic_init();
     idt_reload();
+    terminal_print("- PIC initialized\n");
 
-    // pic_unmask(0);
-    // pic_unmask(12);
+    // map memory
     mem_init();
-    
+    //terminal_print("- Memory initialized\n");
 
     int seperlapan = framebuffer_request.response->framebuffers[0]->height / 8;
     for (int x = seperlapan; x < framebuffer_request.response->framebuffers[0]->height - seperlapan; x++)
         drawhoriline(15, x, 15, torgb(0, 50, 255));
 
-    // prints
-    terminal_print("\nCPU count: ");
+    // debug
+    terminal_print("|- CPU count: ");
     terminal_printi(smp_request.response->cpu_count);
-    terminal_print("\nMemory entries: ");
-    terminal_printi(memmap_request.response->entry_count);
-    terminal_print("\nBoot time at: ");
-    terminal_printi(boot_time_request.response->boot_time);
-    terminal_print("s (timestamp)");
+    terminal_print("\n");
 
-    // terminal_printi(module_request.response->module_count);
-    // terminal_printi(smp_request.response->cpus[0]->processor_id);
+    terminal_print("|- Memory entries: ");
+    terminal_printi(memmap_request.response->entry_count);
+    terminal_print("\n");
+
+    terminal_print("|- Boot time at: ");
+    terminal_printi(boot_time_request.response->boot_time);
+    terminal_print("s (timestamp)\n");
 
     // terminal_print("\nFree pages: ");
     // terminal_printi(FREE_PAGES);
     struct RSDP *rsdp = (struct RSDP *)rsdp_request.response->address;
-    terminal_print("\nrsdp at: ");
+    terminal_print("|- rsdp at: 0x");
     terminal_printi((int)rsdp);
-    terminal_print("\nrev: ");
+    terminal_print("\n");
+
+    terminal_print("|- rev: ");
     terminal_printi(rsdp->revision);
-    terminal_print("\n\033[6;41mAMOGUS\033[0m");
-    // terminal_print("\033[3A");
+    terminal_print("\n");
+
+    terminal_print("\033[6;41mAMOGUS\033[0m\n");
     terminal_print(
         "\n  \033[1;91m_____\033[0m   \033[1;32m_____\033[0m     \033[0;36m__  __\033[0m         \033[1;35m______\033[0m                    \
-\n \033[1;91m/ ___ \\\033[0m \033[1;32m/ ____|\033[0m    \033[0;36m| |/ /\033[0m    /\\   \033[1;35m|_   _|\033[0m                   \
-\n \033[1;91m| |  | |\033[0m \033[1;32m(___\033[0m   \033[1;93m___\033[0m\033[0;36m| ' /\033[0m    /  \\    \033[1;35m| |\033[0m                     \
-\n \033[1;91m| |  | |\033[0m\033[1;32m\\___ \\\033[0m \033[1;93m/ _ \\\033[0m  \033[0;36m<\033[0m    / /\\ \\   \033[1;35m| |\033[0m                     \
-\n \033[1;91m| |__| |\033[0m\033[1;32m____)\033[0m \033[1;93m|  __/\033[0m \033[0;36m. \\\033[0m  / ____ \\ \033[1;35m_| |_\033[0m                     \
-\n \033[1;91m\\____|\033[0m\033[1;32m_______/\033[0m \033[1;93m\\___|\033[0m\033[0;36m_|\\_\\\033[0m/_/    \\_\\\033[1;35m_____|\033[0m                   \
+\n \033[1;91m/ ___ \\\033[0m \033[1;32m/ ____|\033[0m    \033[0;36m| |/ /\033[0m    /\\   \033[1;35m|_   _|\033[0m                          \
+\n \033[1;91m| |  | |\033[0m \033[1;32m(___\033[0m   \033[1;93m___\033[0m\033[0;36m| ' /\033[0m    /  \\    \033[1;35m| |\033[0m            \
+\n \033[1;91m| |  | |\033[0m\033[1;32m\\___ \\\033[0m \033[1;93m/ _ \\\033[0m  \033[0;36m<\033[0m    / /\\ \\   \033[1;35m| |\033[0m        \
+\n \033[1;91m| |__| |\033[0m\033[1;32m____)\033[0m \033[1;93m|  __/\033[0m \033[0;36m. \\\033[0m  / ____ \\ \033[1;35m_| |_\033[0m          \
+\n \033[1;91m\\____|\033[0m\033[1;32m_______/\033[0m \033[1;93m\\___|\033[0m\033[0;36m_|\\_\\\033[0m/_/    \\_\\\033[1;35m_____|\033[0m     \n\
   ");
-    terminal_print("\n\033[1;37mOperasi Sistem e Karya Anak Indonesia\033[0m\n");
+    terminal_print("\033[1;37mOperasi Sistem e Karya Anak Indonesia\033[0m\n");
 
     // IDT interrupt test
-    __asm__("int $0x10");
+    //__asm__("int $0x10");
 
     // hang...
     done();

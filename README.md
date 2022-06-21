@@ -7,9 +7,9 @@
 - [x] Terminals & Framebuffers
 - [x] GDT
 - [x] IDT
-- [ ] PIC
+- [x] PIC
 - - [ ] PIT
-- - [ ] Keyboard
+- - [x] Keyboard
 - - [ ] Mouse
 
 <hr>

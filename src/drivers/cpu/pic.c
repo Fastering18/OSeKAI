@@ -23,38 +23,80 @@
 #define ICW4_SFNM 0x10       /* Special fully nested (not) */
 
 
-static inline void io_wait(void)
-{
-    outb(0x80, 0);
-}
-
-void pic_sendEOI(unsigned char irq)
+// pic send eoi
+void pic_sendEOI(uint8_t irq)
 {
     if (irq >= 8)
+    {
         outb(PIC2_COMMAND, PIC_EOI);
-
+    }
     outb(PIC1_COMMAND, PIC_EOI);
 }
 
-/**
- * @brief PIC
- * 
- */
-void pic_init()
+// disable pic
+void pic_disable()
 {
-    outb(0x20, 0x11);
-    outb(0xA0, 0x11);
-    outb(0x21, 0x20);
-    outb(0xA1, 0x28);
-    outb(0x21, 0x04);
-    outb(0xA1, 0x02);
-    outb(0x21, 0x01);
-    outb(0xA1, 0x01);
-    outb(0x21, 0x00);
-    outb(0xA1, 0x00);
-
-    terminal_print("PIC initialized\n");
+    outb(PIC1_COMMAND, 0xFF);
+    outb(PIC2_COMMAND, 0xFF);
 }
+
+/**
+ * @brief PIC initialization function
+ * pic_init() initializes the PIC and sets up the IRQs.
+ * pic_init() is called by the kernel during initialization.
+ * @return void
+ */
+void pic_init() {
+    // ICW1: Master PIC
+    outb(PIC1_COMMAND, ICW1_INIT | ICW1_ICW4);
+    io_wait();
+
+    // ICW2: Master PIC
+    outb(PIC1_DATA, 0x20);
+    io_wait();
+
+    // ICW3: Master PIC
+    outb(PIC1_DATA, 4);
+    io_wait();
+
+    // ICW4: Master PIC
+    outb(PIC1_DATA, ICW4_8086);
+    io_wait();
+
+    // ICW1: Slave PIC
+    outb(PIC2_COMMAND, ICW1_INIT | ICW1_ICW4);
+    io_wait();
+
+    // ICW2: Slave PIC
+    outb(PIC2_DATA, 0x28);
+    io_wait();
+
+    // ICW3: Slave PIC
+    outb(PIC2_DATA, 2);
+    io_wait();
+
+    // ICW4: Slave PIC
+    outb(PIC2_DATA, ICW4_8086);
+    io_wait();
+
+    // Mask all IRQs
+    outb(PIC1_DATA, 0xFF);
+    outb(PIC2_DATA, 0xFF);
+
+    // set up the PIT
+    outb(0x43, 0x34);
+    outb(0x40, 0x00);
+    outb(0x40, 0x00);
+    outb(0x40, 0x00);
+
+    // set up the keyboard
+    outb(0x21, 0xFD);
+    outb(0xA1, 0xFD);
+
+    // set up mouse
+    outb(0xA9, 0xFF);
+}
+
 
 void pic_mask(unsigned char IRQline)
 {
