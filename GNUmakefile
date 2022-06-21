@@ -9,32 +9,32 @@ UNIFONTSLN = $(STYLEDIR)/unifont.sfn
 
 QEMU = qemu-system-x86_64
 QEMUF = -M q35 -serial stdio       \
-        -cdrom oserax.iso -boot d  \
+        -cdrom osekai.iso -boot d  \
 		-cpu max -smp 4 -m 512M	   \
 		-device isa-debug-exit,iobase=0xf4,iosize=0x04
 
 .PHONY: all
-all: oserax.iso
+all: osekai.iso
 
 .PHONY: all-hdd
-all-hdd: oserax.hdd
+all-hdd: osekai.hdd
 
 .PHONY: run
-run: oserax.iso
+run: osekai.iso
 	$(QEMU) $(QEMUF)
 
 .PHONY: run-uefi
-run-uefi: ovmf-x64 oserax.iso
+run-uefi: ovmf-x64 osekai.iso
 	$(QEMU) $(QEMUF) -bios ovmf-x64/OVMF.fd
-#qemu-system-x86_64 -M q35 -m 2G -bios ovmf-x64/OVMF.fd -cdrom oserax.iso -boot d
+#qemu-system-x86_64 -M q35 -m 2G -bios ovmf-x64/OVMF.fd -cdrom osekai.iso -boot d
 
 .PHONY: run-hdd
-run-hdd: oserax.hdd
-	$(QEMU) -M q35 -serial stdio -m 2G -hda oserax.hdd
+run-hdd: osekai.hdd
+	$(QEMU) -M q35 -serial stdio -m 2G -hda osekai.hdd
 
 .PHONY: run-hdd-uefi
-run-hdd-uefi: ovmf-x64 oserax.hdd
-	$(QEMU) -M q35 -serial stdio -m 2G -bios ovmf-x64/OVMF.fd -hda oserax.hdd
+run-hdd-uefi: ovmf-x64 osekai.hdd
+	$(QEMU) -M q35 -serial stdio -m 2G -bios ovmf-x64/OVMF.fd -hda osekai.hdd
 
 ovmf-x64:
 	mkdir -p ovmf-x64
@@ -48,7 +48,7 @@ limine:
 kernel:
 	$(MAKE) -C $(SOURCEDIR)
 
-oserax.iso: limine kernel
+osekai.iso: limine kernel
 	rm -rf iso_root
 	mkdir -p iso_root
 	cp $(KERNEL) \
@@ -59,18 +59,18 @@ oserax.iso: limine kernel
 		-no-emul-boot -boot-load-size 4 -boot-info-table \
 		--efi-boot limine-cd-efi.bin \
 		-efi-boot-part --efi-boot-image --protective-msdos-label \
-		iso_root -o oserax.iso
-	limine/limine-deploy oserax.iso
+		iso_root -o osekai.iso
+	limine/limine-deploy osekai.iso
 	rm -rf iso_root
 
-oserax.hdd: limine kernel
-	rm -f oserax.hdd
-	dd if=/dev/zero bs=1M count=0 seek=64 of=oserax.hdd
-	parted -s oserax.hdd mklabel gpt
-	parted -s oserax.hdd mkpart ESP fat32 2048s 100%
-	parted -s oserax.hdd set 1 esp on
-	limine/limine-deploy oserax.hdd
-	sudo losetup -Pf --show oserax.hdd >loopback_dev
+osekai.hdd: limine kernel
+	rm -f osekai.hdd
+	dd if=/dev/zero bs=1M count=0 seek=64 of=osekai.hdd
+	parted -s osekai.hdd mklabel gpt
+	parted -s osekai.hdd mkpart ESP fat32 2048s 100%
+	parted -s osekai.hdd set 1 esp on
+	limine/limine-deploy osekai.hdd
+	sudo losetup -Pf --show osekai.hdd >loopback_dev
 	sudo mkfs.fat -F 32 `cat loopback_dev`p1
 	mkdir -p img_mount
 	sudo mount `cat loopback_dev`p1 img_mount
@@ -84,7 +84,7 @@ oserax.hdd: limine kernel
 
 .PHONY: clean
 clean:
-	rm -rf iso_root oserax.iso oserax.hdd
+	rm -rf iso_root osekai.iso osekai.hdd
 	$(MAKE) -C $(SOURCEDIR) clean
 
 .PHONY: distclean

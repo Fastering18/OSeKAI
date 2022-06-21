@@ -14,6 +14,7 @@
 
 <hr>
 
+![OSeKAI-Keyboard](https://i.gyazo.com/a3ec7d32339097336f08a58bdd369053.gif)
 ![OSeKAI-Preview](https://i.gyazo.com/6612d17dcdd95bfdde4acba44f9cfb42.png)  
 
 <hr>
