@@ -150,6 +150,7 @@ void terminal_cursor_left(int lines, struct limine_terminal *term)
 
 void terminal_callback(struct limine_terminal *term, uint64_t type, uint64_t first, uint64_t second, uint64_t third) {
     terminal_printi(type);
+    terminal_print("kbd cb called");
     switch (type) {
         case LIMINE_TERMINAL_CB_KBD_LEDS:
             terminal_print("\nled");

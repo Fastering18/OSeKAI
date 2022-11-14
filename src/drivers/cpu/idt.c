@@ -21,7 +21,7 @@ struct registers_t
     uint64_t int_no, error_code, rip, cs, rflags, rsp, ss;
 } __attribute__((packed));
 
-typedef struct
+typedef struct 
 {
     uint16_t limit;
     uint64_t base;
@@ -70,7 +70,7 @@ static const char *exception_messages[32] = {
 
 void pit_handler(struct registers_t *regs)
 {
-    terminal_print("_PIT_");
+    terminal_print(".");
     pic_sendEOI(0);
 }
 

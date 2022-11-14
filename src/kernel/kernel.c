@@ -203,7 +203,7 @@ void _start(void)
     framebuffer_init();
     terminal_init();
 
-    terminal_print("Welcome to OSeKAI\n");
+    terminal_print("Welcome to OSeKAI (build 14/11/2022)\n");
     terminal_print("Project github.com/Fastering18/OSeKAI\n\n");
 
     // initialize IDT
