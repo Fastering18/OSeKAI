@@ -3,31 +3,6 @@
 #include "idt.h"
 #include "io.h"
 
-typedef struct
-{
-    uint16_t isr_low;   // The lower 16 bits of the ISR's address
-    uint16_t kernel_cs; // The GDT segment selector that the CPU will load into CS before calling the ISR
-    uint8_t ist;        // The IST in the TSS that the CPU will load into RSP; set to zero for now
-    uint8_t attributes; // Type and attributes; see the IDT page
-    uint16_t isr_mid;   // The higher 16 bits of the lower 32 bits of the ISR's address
-    uint32_t isr_high;  // The higher 32 bits of the ISR's address
-    uint32_t reserved;  // Set to zero
-} __attribute__((packed)) idt_entry_t;
-
-struct registers_t
-{
-    uint64_t r15, r14, r13, r12, r11, r10, r9, r8;
-    uint64_t rbp, rdi, rsi, rdx, rcx, rbx, rax;
-    uint64_t int_no, error_code, rip, cs, rflags, rsp, ss;
-} __attribute__((packed));
-
-typedef struct 
-{
-    uint16_t limit;
-    uint64_t base;
-} __attribute__((packed)) idtr_t;
-
-typedef void (*int_handler_t)(struct registers_t *);
 int_handler_t interrupt_handlers[256];
 
 __attribute__((aligned(0x10))) static idt_entry_t idt[256]; // Create an array of IDT entries; aligned for performance
@@ -68,56 +43,11 @@ static const char *exception_messages[32] = {
     "Reserved",
 };
 
-void pit_handler(struct registers_t *regs)
-{
-    terminal_print(".");
-    pic_sendEOI(0);
-}
-
-// us keyboard scancodes to ascii
-char sc2ascii[] = {SCANCODE2ASCII_TABLE};
-
-static int kbd_caps_lock = 0;
-static int kbd_shift = 0;
-
-unsigned char toUpperCase(unsigned char c)
-{
-    if (c >= 'a' && c <= 'z')
-        return c - 32;
-    return c;
-}
-
-// handle keyboard interrupt
-// todo: buat file sendiri untuk keyboard
-void kbd_handler(struct registers_t *regs)
-{
-    uint8_t scancode = inb(0x60);
-    unsigned char *ascii = {sc2ascii[scancode], '\0'};
-    //terminal_print("sc: ");
-    //terminal_printi(scancode);
-
-    switch (scancode)
-    {
-    case 0x3A:
-        kbd_caps_lock = !kbd_caps_lock;
-        break;
-    default:
-        terminal_print(&ascii);
-        if (ascii == 13)
-        {
-            terminal_print("\n");
-        }
-        break;
-    }
-
-    pic_sendEOI(1);
-}
-
 // interrupt handler for all interrupts
 void interrupt_handler(struct registers_t *regs)
 {
-    // terminal_print("\nint: ");
-    // terminal_printi(regs->int_no);
+    //terminal_print("\INT: ");
+    //terminal_printi(regs->int_no);
     if (regs->int_no < 32)
     {
         terminal_print("\033[1;91mERROR INTERRUPT: ");
@@ -125,6 +55,10 @@ void interrupt_handler(struct registers_t *regs)
         terminal_print(" (");
         terminal_print(exception_messages[regs->int_no]);
         terminal_print(")\033[0m\n");
+
+        serial_print("\033[1;91mERROR INTERRUPT: ");
+        serial_print(exception_messages[regs->int_no]);
+        serial_print("\033[0m\n");
 
         // hang the system
         __asm__ volatile("cli; hlt");
@@ -158,8 +92,8 @@ void idt_init()
     idtr.base = (uintptr_t)&idt[0];
     idtr.limit = sizeof(idt_entry_t) * IDT_MAX_DESCRIPTORS - 1;
 
-    interrupt_handlers[0x20] = pit_handler;
-    interrupt_handlers[0x21] = kbd_handler;
+    //interrupt_handlers[0x20] = pit_handler;
+    //interrupt_handlers[0x21] = kbd_handler;
 
     for (size_t i = 0; i < IDT_MAX_DESCRIPTORS; i++)
     {
@@ -170,6 +104,10 @@ void idt_init()
     // pic_unmask(1);
 
     //__asm__ volatile ("lidt %0" : : "m"(idtr)); // load the new IDT
+}
+
+void register_handler(uint8_t osffset, int_handler_t handler) {
+    interrupt_handlers[osffset] = handler;
 }
 
 void enable_interrupt()

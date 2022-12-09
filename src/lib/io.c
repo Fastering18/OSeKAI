@@ -41,6 +41,11 @@ inline void farpokeb(uint16_t sel, void* off, uint8_t v)
     return ret;
 }
 
+static inline void IoWrite16(uint16_t port, uint16_t data)
+{
+    __asm__ volatile("outb %b0, %w1" : : "a" (data), "Nd" (port));
+}
+
  inline void io_wait(void)
 {
     outb(0x80, 0);
@@ -73,3 +78,61 @@ inline bool are_interrupts_enabled()
     irqrestore(f);
 }
 
+void write_cr(uint64_t reg, uint64_t val)
+{
+    switch (reg)
+    {
+        case 0:
+            __asm__ volatile ("mov %0, %%cr0" :: "r" (val) : "memory");
+            break;
+        case 2:
+            __asm__ volatile ("mov %0, %%cr2" :: "r" (val) : "memory");
+            break;
+        case 3:
+            __asm__ volatile ("mov %0, %%cr3" :: "r" (val) : "memory");
+            break;
+        case 4:
+            __asm__ volatile ("mov %0, %%cr4" :: "r" (val) : "memory");
+            break;
+    }
+}
+
+uint64_t read_cr(uint64_t reg)
+{
+    uint64_t cr;
+    switch (reg)
+    {
+        case 0:
+            __asm__ volatile ("mov %%cr0, %0" : "=r" (cr) :: "memory");
+            break;
+        case 2:
+            __asm__ volatile ("mov %%cr2, %0" : "=r" (cr) :: "memory");
+            break;
+        case 3:
+            __asm__ volatile ("mov %%cr3, %0" : "=r" (cr) :: "memory");
+            break;
+        case 4:
+            __asm__ volatile ("mov %%cr4, %0" : "=r" (cr) :: "memory");
+            break;
+    }
+    return cr;
+}
+
+// enable SSE
+void enableSSE()
+{
+    write_cr(0, (read_cr(0) & ~(1 << 2)) | (1 << 1));
+    write_cr(4, read_cr(4) | (3 << 9));
+}
+
+// enable SMEP
+void enableSMEP()
+{
+    write_cr(4, read_cr(4) | (1 << 20));
+}
+
+// enable SMAP
+void enableSMAP()
+{
+    write_cr(4, read_cr(4) | (1 << 21));
+}

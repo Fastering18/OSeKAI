@@ -1,8 +1,6 @@
-#ifndef H_IDT
-#define H_IDT 1
+#ifndef H_KBD
+#define H_KBD 1
 
-#define GDT_OFFSET_KERNEL_CODE 0x28
-#define IDT_MAX_DESCRIPTORS 256
 #define SCANCODE2ASCII_TABLE /*
        0     1     2     3     4     5     6     7     8     9     A     B     C     D     E     F
 */  0x00, 0x1B, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x2D, 0x3D, 0x08, 0x09, /*0
@@ -63,14 +61,8 @@
 */  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00  /*F
 */
 
-static uint8_t SYSCALL = 0x69;
+void kbd_handler(struct registers_t *regs);
+void kbd_init();
 
-void *int_table[];
-
-void idt_init();
-void enable_interrupt();
-void idt_reload();
-
-void _pic_init();
 
 #endif

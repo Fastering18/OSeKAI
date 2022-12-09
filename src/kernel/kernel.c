@@ -90,25 +90,12 @@ volatile struct limine_stack_size_request stack_size_request =
         .response = NULL,
         .stack_size = STACK_SIZE};
 
-static void done(void)
+static void halt(void)
 {
     for (;;)
     {
         __asm__("hlt");
     }
-}
-
-void kbd_ack(void)
-{
-    while (!(inb(0x60) == 0xfa))
-        ;
-}
-
-void kbd_led_handling(char ledstatus)
-{
-    outb(0x60, 0xed);
-    kbd_ack();
-    outb(0x60, ledstatus);
 }
 
 struct RSDP
@@ -124,63 +111,9 @@ struct RSDP
     uint8_t reserved[3];
 };
 
-void write_cr(uint64_t reg, uint64_t val)
-{
-    switch (reg)
-    {
-        case 0:
-            __asm__ volatile ("mov %0, %%cr0" :: "r" (val) : "memory");
-            break;
-        case 2:
-            __asm__ volatile ("mov %0, %%cr2" :: "r" (val) : "memory");
-            break;
-        case 3:
-            __asm__ volatile ("mov %0, %%cr3" :: "r" (val) : "memory");
-            break;
-        case 4:
-            __asm__ volatile ("mov %0, %%cr4" :: "r" (val) : "memory");
-            break;
-    }
-}
-
-uint64_t read_cr(uint64_t reg)
-{
-    uint64_t cr;
-    switch (reg)
-    {
-        case 0:
-            __asm__ volatile ("mov %%cr0, %0" : "=r" (cr) :: "memory");
-            break;
-        case 2:
-            __asm__ volatile ("mov %%cr2, %0" : "=r" (cr) :: "memory");
-            break;
-        case 3:
-            __asm__ volatile ("mov %%cr3, %0" : "=r" (cr) :: "memory");
-            break;
-        case 4:
-            __asm__ volatile ("mov %%cr4, %0" : "=r" (cr) :: "memory");
-            break;
-    }
-    return cr;
-}
-
-// enable SSE
-void enableSSE()
-{
-    write_cr(0, (read_cr(0) & ~(1 << 2)) | (1 << 1));
-    write_cr(4, read_cr(4) | (3 << 9));
-}
-
-// enable SMEP
-void enableSMEP()
-{
-    write_cr(4, read_cr(4) | (1 << 20));
-}
-
-// enable SMAP
-void enableSMAP()
-{
-    write_cr(4, read_cr(4) | (1 << 21));
+void
+set_fpu_cw(const uint16_t cw) {
+	__asm__ volatile("fldcw %0" :: "m"(cw));
 }
 
 // kernel's entry point.
@@ -192,18 +125,27 @@ void _start(void)
     //enableSMEP();
     //enableSMAP();
 
-    // Ensure we got a terminal
-    if (terminal_request.response == NULL || terminal_request.response->terminal_count < 1) done();
+    // Ensure terminal
+    if (terminal_request.response == NULL || terminal_request.response->terminal_count < 1) halt();
 
-    // welcome in host OS (serial)
+    // welcome (serial)
     serial_print("\nWelcome to OSeKAI\n");
-    serial_print("github project: https://github.com/Fastering18/OSeKAI\n");
+    serial_print("github project: https://github.com/Fastering18/OSeKAI\n\n");
+    serial_print("======= DEBUG =======\n");
 
     // initilaize framebuffer & terminal
     framebuffer_init();
     terminal_init();
 
-    terminal_print("Welcome to OSeKAI (build 14/11/2022)\n");
+    terminal_print("Welcome to OSeKAI (build ");
+    #ifdef __DATE__ && __TIME__
+    terminal_print(__DATE__);
+    terminal_print(", ");
+    terminal_print(__TIME__);
+    #else
+    terminal_print("10/12/2022");
+    #endif
+    terminal_print(")\n");
     terminal_print("Project github.com/Fastering18/OSeKAI\n\n");
 
     // initialize IDT
@@ -219,9 +161,9 @@ void _start(void)
     mem_init();
     //terminal_print("- Memory initialized\n");
 
-    int seperlapan = framebuffer_request.response->framebuffers[0]->height / 8;
-    for (int x = seperlapan; x < framebuffer_request.response->framebuffers[0]->height - seperlapan; x++)
-        drawhoriline(15, x, 15, torgb(0, 50, 255));
+    //int seperlapan = framebuffer_request.response->framebuffers[0]->height / 8;
+    //for (int x = seperlapan; x < framebuffer_request.response->framebuffers[0]->height - seperlapan; x++)
+    //    drawhoriline(15, x, 15, torgb(0, 50, 255));
 
     // debug
     terminal_print("|- CPU count: ");
@@ -236,18 +178,16 @@ void _start(void)
     terminal_printi(boot_time_request.response->boot_time);
     terminal_print("s (timestamp)\n");
 
-    // terminal_print("\nFree pages: ");
-    // terminal_printi(FREE_PAGES);
     struct RSDP *rsdp = (struct RSDP *)rsdp_request.response->address;
     terminal_print("|- rsdp at: 0x");
-    terminal_printi((int)rsdp);
+    terminal_printi(rsdp->rsdt_addr);
     terminal_print("\n");
 
-    terminal_print("|- rev: ");
-    terminal_printi(rsdp->revision);
+    terminal_print("|- kernel path: ");
+    terminal_print(kernel_file_request.response->kernel_file->path);
     terminal_print("\n");
 
-    terminal_print("\033[6;41mAMOGUS\033[0m\n");
+    //terminal_print("\033[6;41mAMOGUS\033[0m\n");
     terminal_print(
         "\n  \033[1;91m_____\033[0m   \033[1;32m_____\033[0m     \033[0;36m__  __\033[0m         \033[1;35m______\033[0m                    \
 \n \033[1;91m/ ___ \\\033[0m \033[1;32m/ ____|\033[0m    \033[0;36m| |/ /\033[0m    /\\   \033[1;35m|_   _|\033[0m                          \
@@ -258,9 +198,20 @@ void _start(void)
   ");
     terminal_print("\033[1;37mOperasi Sistem e Karya Anak Indonesia\033[0m\n");
 
+    size_t cr4;
+	__asm__ volatile ("mov %%cr4, %0" : "=r"(cr4));
+	cr4 |= 0x200;
+	__asm__ volatile ("mov %0, %%cr4" :: "r"(cr4));
+	set_fpu_cw(0x37F);
+
+    /*for (size_t i = 0; i < module_request.response->module_count; i++) {
+        terminal_print(module_request.response->modules[i]->cmdline);
+        terminal_print("\n");
+    }*/
+
     // IDT interrupt test
     //__asm__("int $0x10");
 
-    // hang...
-    done();
+    // halt
+    halt();
 }

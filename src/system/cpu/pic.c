@@ -2,6 +2,9 @@
 #include <kernel.h>
 #include "io.h"
 
+#include "kbd.h"
+#include "pit.h"
+
 #define PIC1 0x20 /* IO base address for master PIC */
 #define PIC2 0xA0 /* IO base address for slave PIC */
 #define PIC1_COMMAND PIC1
@@ -21,7 +24,6 @@
 #define ICW4_BUF_SLAVE 0x08  /* Buffered mode/slave */
 #define ICW4_BUF_MASTER 0x0C /* Buffered mode/master */
 #define ICW4_SFNM 0x10       /* Special fully nested (not) */
-
 
 // pic send eoi
 void pic_sendEOI(uint8_t irq)
@@ -47,54 +49,27 @@ void pic_disable()
  * @return void
  */
 void pic_init() {
-    // ICW1: Master PIC
-    outb(PIC1_COMMAND, ICW1_INIT | ICW1_ICW4);
-    io_wait();
+    // pic remap
+    outb(0x20, 0x11);
+	outb(0xA0, 0x11);
+	outb(0x21, 0x20);
+	outb(0xA1, 0x28);
+	outb(0x21, 0x04);
+	outb(0xA1, 0x02);
+	outb(0x21, 0x01);
+	outb(0xA1, 0x01);
+	outb(0x21, 0x0);
+	outb(0xA1, 0x0);
 
-    // ICW2: Master PIC
-    outb(PIC1_DATA, 0x20);
-    io_wait();
+    kbd_init();
+    pit_init();
 
-    // ICW3: Master PIC
-    outb(PIC1_DATA, 4);
-    io_wait();
+    // kbd
+    //outb(0x21, 0xFD);
+    //outb(0xA1, 0xFD);
 
-    // ICW4: Master PIC
-    outb(PIC1_DATA, ICW4_8086);
-    io_wait();
-
-    // ICW1: Slave PIC
-    outb(PIC2_COMMAND, ICW1_INIT | ICW1_ICW4);
-    io_wait();
-
-    // ICW2: Slave PIC
-    outb(PIC2_DATA, 0x28);
-    io_wait();
-
-    // ICW3: Slave PIC
-    outb(PIC2_DATA, 2);
-    io_wait();
-
-    // ICW4: Slave PIC
-    outb(PIC2_DATA, ICW4_8086);
-    io_wait();
-
-    // Mask all IRQs
-    outb(PIC1_DATA, 0xFF);
-    outb(PIC2_DATA, 0xFF);
-
-    // set up the PIT
-    outb(0x43, 0x34);
-    outb(0x40, 0x00);
-    outb(0x40, 0x00);
-    outb(0x40, 0x00);
-
-    // set up the keyboard
-    outb(0x21, 0xFD);
-    outb(0xA1, 0xFD);
-
-    // set up mouse
-    outb(0xA9, 0xFF);
+    // mouse
+    //outb(0xA9, 0xFF);
 }
 
 

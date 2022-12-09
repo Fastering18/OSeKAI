@@ -1,6 +1,7 @@
 # This is the name that our final kernel executable will have.
 # Change as needed.
 KERNELDIR = kernel
+SYSDIR = system
 DRIVERSDIR = drivers
 LIBDIR = lib
 MEMDIR = mem
@@ -37,8 +38,10 @@ INCLUDES :=                  \
     -I$(KERNELDIR)/          \
 	-I$(MEMDIR)/			 \
 	-I$(LIBDIR)/             \
+	-I$(SYSDIR)/cpu/         \
+	-I$(SYSDIR)/mem/         \
 	-I$(DRIVERSDIR)/display/ \
-	-I$(DRIVERSDIR)/cpu/
+	-I$(DRIVERSDIR)/keyboard/\
 
 # Internal C flags that should not be changed by the user.
 override INTERNALCFLAGS :=   \

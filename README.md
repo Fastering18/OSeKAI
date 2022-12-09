@@ -8,7 +8,9 @@
 - [x] GDT
 - [x] IDT
 - [x] PIC
-- - [ ] PIT
+- [ ] PMM
+- [ ] VMM
+- - [x] PIT
 - - [x] Keyboard
 - - [ ] Mouse
 
@@ -18,7 +20,7 @@
 
 <hr>
 
-## How to run?  
+## How to compile & run?  
 Currently tested and work with Linux or WSL, it may be possible with Visual Studio on Windows but i haven't tried it.
 
 ### requirements
@@ -32,10 +34,15 @@ git clone https://github.com/Fastering18/OSeKAI
 cd OSeKAI
 ```
 
-### Compile & run with make
+### Compile with make
 ```bash
 make all
 ```
+### Run the ISO
+```bash
+bash run.sh
+```
+
 That's all of compiling the code! you can also check for latest ISO file release [here](https://github.com/Fastering18/OSeKAI/tags).
 
 <hr>
