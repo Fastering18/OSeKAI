@@ -5,15 +5,14 @@
 </p>
 
 <p>
-<a href="https://github.com/Fastering18/OSeKAI/#"><img src="https://img.shields.io/github/workflow/status/Fastering18/OSeKAI/compile-test?color=pink&logo=github&style=for-the-badge" alt="git-workflow"></a> 
+<a href="https://github.com/Fastering18/OSeKAI/#"><img src="https://img.shields.io/github/workflow/status/Fastering18/OSeKAI/compile-test?color=green&logo=github&style=for-the-badge" alt="git-workflow"></a> 
 <a href="https://github.com/Fastering18/OSeKAI/#"><img src="https://img.shields.io/discord/795942661163974656?color=purple&label=Discord&logo=Discord&logoColor=white&style=for-the-badge" alt="git-workflow"></a> 
-<a href="https://github.com/Fastering18/OSeKAI/#"><img src="https://img.shields.io/github/downloads/Fastering18/OSeKAI/total?style=for-the-badge" alt="git-workflow"></a> 
+<a href="https://github.com/Fastering18/OSeKAI/#"><img src="https://img.shields.io/github/downloads/Fastering18/OSeKAI/total?color=orange&logo=github&style=for-the-badge" alt="git-workflow"></a>  
+
+An experimental OS project based on limine bootloader written in C & Assembly.
+
 </p>
 </div>
-
-> **[ Work in Progress ]**  
-> Bootloader  : Limine  
-> Protocol    : Limine 
 
 ## Todo list
 - [x] Terminals & Framebuffers
