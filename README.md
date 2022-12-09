@@ -1,8 +1,15 @@
-# OSeKAI Project  
-[![OSeKAI logo](https://see.fontimg.com/api/renderfont4/gRqP/eyJyIjoiZnMiLCJoIjoxNDEsInciOjEwOTAsImZzIjoxMjksImZnYyI6IiNCNjI5RkEiLCJiZ2MiOiIjMEYwODE5In0/T1NlS0FJ/presa-ultralight-antipixelcomar.png)](https://github.com/Fastering18/OSeKAI/#)
-![Build status](https://img.shields.io/github/workflow/status/Fastering18/OSeKAI/compile-test?color=pink&logo=github&style=for-the-badge)
-![Discord community](https://img.shields.io/discord/795942661163974656?color=purple&label=Discord&logo=Discord&logoColor=white&style=for-the-badge)
-![Download count](https://img.shields.io/github/downloads/Fastering18/OSeKAI/total?style=for-the-badge) 
+<div align="center">
+<p>
+<h1>Operating System Project </h1>
+<img src="https://see.fontimg.com/api/renderfont4/gRqP/eyJyIjoiZnMiLCJoIjoxNDEsInciOjEwOTAsImZzIjoxMjksImZnYyI6IiNCNjI5RkEiLCJiZ2MiOiIjMEYwODE5In0/T1NlS0FJ/presa-ultralight-antipixelcomar.png" alt="OSeKAI logo">
+</p>
+
+<p>
+<a href="https://github.com/Fastering18/OSeKAI/#"><img src="https://img.shields.io/github/workflow/status/Fastering18/OSeKAI/compile-test?color=pink&logo=github&style=for-the-badge" alt="git-workflow"></a> 
+<a href="https://github.com/Fastering18/OSeKAI/#"><img src="https://img.shields.io/discord/795942661163974656?color=purple&label=Discord&logo=Discord&logoColor=white&style=for-the-badge" alt="git-workflow"></a> 
+<a href="https://github.com/Fastering18/OSeKAI/#"><img src="https://img.shields.io/github/downloads/Fastering18/OSeKAI/total?style=for-the-badge" alt="git-workflow"></a> 
+</p>
+</div>
 
 > **[ Work in Progress ]**  
 > Bootloader  : Limine  

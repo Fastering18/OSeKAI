@@ -1,15 +1,17 @@
 name: compile-test
-   on:
-     push:
-       branches: [ work-c-limine ]
-     pull_request:
-       branches: [ work-c-limine ]
+on:
+  push:
+    branches: [ work-c-limine ]
+  pull_request:
+    branches: [ work-c-limine ]
 
-   jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps:
-      - name: checkout repo
-        uses: actions/checkout@v2
-      - name: build iso image
-        run: make
+jobs:
+ build:
+   runs-on: ubuntu-latest
+   steps:
+   - name: checkout repo
+     uses: actions/checkout@v3
+   - name: Set up NASM
+     uses: ilammy/setup-nasm@v1.4.0
+   - name: build iso image
+     run: make

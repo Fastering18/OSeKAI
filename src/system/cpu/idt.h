@@ -32,7 +32,7 @@ typedef void (*int_handler_t)(struct registers_t *);
 
 static uint8_t SYSCALL = 0x69;
 
-void *int_table[];
+//void *int_table[];
 
 void idt_init();
 void enable_interrupt();
