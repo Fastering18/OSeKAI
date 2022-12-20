@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include <stdarg.h>
 
-static inline int printf(struct limine_terminal *term, const char *format, ...);
+//static inline int printf(struct limine_terminal *term, const char *format, ...);
 
 extern bool initialised;
 extern char *resetcolour;
@@ -33,8 +33,9 @@ extern void _terminal_clear(const char *ansii_colour, struct limine_terminal *te
 extern void terminal_clear(const char *ansii_colour);
 
 
-extern void terminal_callback(struct limine_terminal *term, uint64_t type, uint64_t first, uint64_t second, uint64_t third);
+extern void printf(const char* format, ...); 
 
+extern void terminal_callback(struct limine_terminal *term, uint64_t type, uint64_t first, uint64_t second, uint64_t third);
 extern void terminal_init();
 
 #endif

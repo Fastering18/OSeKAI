@@ -137,15 +137,11 @@ void _start(void)
     framebuffer_init();
     terminal_init();
 
-    terminal_print("Welcome to OSeKAI (build ");
     #ifdef __DATE__ && __TIME__
-    terminal_print(__DATE__);
-    terminal_print(", ");
-    terminal_print(__TIME__);
+    printf("Welcome to OSeKAI (build %s, %s)\n", __DATE__, __TIME__);
     #else
-    terminal_print("10/12/2022");
+    printf("Welcome to OSeKAI (build 10/12/2022)\n");
     #endif
-    terminal_print(")\n");
     terminal_print("Project github.com/Fastering18/OSeKAI\n\n");
 
     // initialize IDT
@@ -161,33 +157,15 @@ void _start(void)
     mem_init();
     //terminal_print("- Memory initialized\n");
 
-    //int seperlapan = framebuffer_request.response->framebuffers[0]->height / 8;
-    //for (int x = seperlapan; x < framebuffer_request.response->framebuffers[0]->height - seperlapan; x++)
-    //    drawhoriline(15, x, 15, torgb(0, 50, 255));
-
     // debug
-    terminal_print("|- CPU count: ");
-    terminal_printi(smp_request.response->cpu_count);
-    terminal_print("\n");
-
-    terminal_print("|- Memory entries: ");
-    terminal_printi(memmap_request.response->entry_count);
-    terminal_print("\n");
-
-    terminal_print("|- Boot time at: ");
-    terminal_printi(boot_time_request.response->boot_time);
-    terminal_print("s (timestamp)\n");
+    printf("|- CPU count: %d\n", smp_request.response->cpu_count);
+    printf("|- Memory entries: %d\n", memmap_request.response->entry_count);
+    printf("|- Boot time at: %dms (timestamp)\n", boot_time_request.response->boot_time);
 
     struct RSDP *rsdp = (struct RSDP *)rsdp_request.response->address;
-    terminal_print("|- rsdp at: 0x");
-    terminal_printi(rsdp->rsdt_addr);
-    terminal_print("\n");
+    printf("|- rsdp at: 0x%x\n", rsdp->rsdt_addr);
+    printf("|- kernel path: %s\n", kernel_file_request.response->kernel_file->path);
 
-    terminal_print("|- kernel path: ");
-    terminal_print(kernel_file_request.response->kernel_file->path);
-    terminal_print("\n");
-
-    //terminal_print("\033[6;41mAMOGUS\033[0m\n");
     terminal_print(
         "\n  \033[1;91m_____\033[0m   \033[1;32m_____\033[0m     \033[0;36m__  __\033[0m         \033[1;35m______\033[0m                    \
 \n \033[1;91m/ ___ \\\033[0m \033[1;32m/ ____|\033[0m    \033[0;36m| |/ /\033[0m    /\\   \033[1;35m|_   _|\033[0m                          \

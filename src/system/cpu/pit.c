@@ -31,9 +31,9 @@ void pit_handler(struct registers_t *regs)
 {
     //terminal_print(".");
     ticks++;
-    if (ticks % 100 == 0) {
+    /*if (ticks % 100 == 0) {
         terminal_print(".");
-    }
+    }*/
     pic_sendEOI(0);
 }
 

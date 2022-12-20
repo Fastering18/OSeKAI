@@ -5,9 +5,9 @@
 </p>
 
 <p>
-<a href="https://github.com/Fastering18/OSeKAI/#"><img src="https://img.shields.io/github/workflow/status/Fastering18/OSeKAI/compile-test?color=green&logo=github&style=for-the-badge" alt="git-workflow"></a> 
-<a href="https://github.com/Fastering18/OSeKAI/#"><img src="https://img.shields.io/discord/795942661163974656?color=purple&label=Discord&logo=Discord&logoColor=white&style=for-the-badge" alt="git-workflow"></a> 
-<a href="https://github.com/Fastering18/OSeKAI/#"><img src="https://img.shields.io/github/downloads/Fastering18/OSeKAI/total?color=orange&logo=github&style=for-the-badge" alt="git-workflow"></a>  
+<a href="https://github.com/Fastering18/OSeKAI/#"><img src="https://img.shields.io/github/actions/workflow/status/Fastering18/OSeKAI/compile-test.yml?branch=work-c-limine&logo=github&style=for-the-badge" alt="git-workflow"></a> 
+<a href="https://github.com/Fastering18/OSeKAI/#"><img src="https://img.shields.io/discord/795942661163974656?color=purple&label=Discord&logo=Discord&logoColor=white&style=for-the-badge" alt="discord server"></a> 
+<a href="https://github.com/Fastering18/OSeKAI/#"><img src="https://img.shields.io/github/downloads/Fastering18/OSeKAI/total?color=orange&logo=github&style=for-the-badge" alt="download count"></a>  
 
 An experimental OS project based on limine bootloader written in C & Assembly.
 
@@ -24,6 +24,7 @@ An experimental OS project based on limine bootloader written in C & Assembly.
 - - [x] PIT
 - - [x] Keyboard
 - - [ ] Mouse
+- [x] BSOD screen
 
 <hr>
 

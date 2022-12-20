@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include "io.h"
 #include "idt.h"
+#include "mem.h"
 #include "kbd.h"
 
 unsigned char toUpperCase(unsigned char c)
@@ -30,6 +31,8 @@ char sc2ascii[] = {SCANCODE2ASCII_TABLE};
 static int kbd_caps_lock = 0;
 static int kbd_shift = 0;
 
+static char captureln[100];
+
 void kbd_handler(struct registers_t *regs)
 {
     uint8_t scancode = inb(0x60);
@@ -55,9 +58,17 @@ void kbd_handler(struct registers_t *regs)
         break;
     default:
         terminal_print(&ascii);
+        char ca[2] = {sc2ascii[scancode], '\0'};
+        strcat(captureln, ca);
+        
         if (ascii == 13)
         {
+            if (strncmp(captureln, "turu0x10", 8) == 0) {
+                __asm__ ("int $0x10");
+            }
+
             terminal_print("\n");
+            memset(captureln, 0, 100 * sizeof(char));
         }
         break;
     }
