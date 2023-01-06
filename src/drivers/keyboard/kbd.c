@@ -30,44 +30,69 @@ char sc2ascii[] = {SCANCODE2ASCII_TABLE};
 
 static int kbd_caps_lock = 0;
 static int kbd_shift = 0;
+static int lastsc = 0;
 
 static char captureln[100];
 
 void kbd_handler(struct registers_t *regs)
 {
     uint8_t scancode = inb(0x60);
-    unsigned char *ascii = {sc2ascii[scancode], '\0'};
 
-    if (scancode == 42 || scancode == 54) {
+    // arrow keys
+    if (lastsc == 224)
+    {
+        switch (scancode)
+        {
+        case 72:
+            terminal_cursor_up(1);
+            break;
+        case 80:
+            terminal_cursor_down(1);
+            break;
+        }
+        lastsc = scancode;
+        pic_sendEOI(1);
+        return;
+    }
+
+    unsigned char *ascii = {sc2ascii[scancode], '\0'};
+    lastsc = scancode;
+
+    if (scancode == 42 || scancode == 54)
+    {
         kbd_shift = 1;
-    } else if (scancode == 170 || scancode == 182) {
+    }
+    else if (scancode == 170 || scancode == 182)
+    {
         kbd_shift = 0;
     }
 
-    if ((kbd_caps_lock && !kbd_shift) || (!kbd_caps_lock && kbd_shift)) { 
+    if ((kbd_caps_lock && !kbd_shift) || (!kbd_caps_lock && kbd_shift))
+    {
         ascii = toUpperCase(ascii);
     }
-    //terminal_print("sc: ");
-    //terminal_printi(scancode);
+    // terminal_print("sc: ");
+    // terminal_printi(scancode);
 
     switch (scancode)
     {
     case 0x3A:
         kbd_caps_lock = !kbd_caps_lock;
-        //kbd_led_handling(4);
+        // kbd_led_handling(4);
         break;
     default:
-        terminal_print(&ascii);
+        printf("%s", &ascii);
         char ca[2] = {sc2ascii[scancode], '\0'};
         strcat(captureln, ca);
-        
+        // terminal_cursor_up(1);
         if (ascii == 13)
         {
-            if (strncmp(captureln, "turu0x10", 8) == 0) {
-                __asm__ ("int $0x10");
+            if (strncmp(captureln, "turu0x10", 8) == 0)
+            {
+                __asm__("int $0x10");
             }
 
-            terminal_print("\n");
+            printf("\n");
             memset(captureln, 0, 100 * sizeof(char));
         }
         break;
@@ -76,7 +101,8 @@ void kbd_handler(struct registers_t *regs)
     pic_sendEOI(1);
 }
 
-void kbd_init() {
+void kbd_init()
+{
     register_handler(0x21, kbd_handler);
     serial_print("PS/2 Keyboard initialized\n");
 }

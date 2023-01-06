@@ -23,6 +23,9 @@ extern void terminal_printi(int num);
 extern void _terminal_printc(char c, struct limine_terminal *term);
 extern void terminal_printc(char c);
 
+extern void terminal_cursor_up(int lines);
+extern void terminal_cursor_down(int lines);
+
 extern void terminal_println(const char *str);
 extern void terminal_print_info(const char *str);
 
@@ -35,7 +38,7 @@ extern void terminal_clear(const char *ansii_colour);
 
 extern void printf(const char* format, ...); 
 
-extern void terminal_callback(struct limine_terminal *term, uint64_t type, uint64_t first, uint64_t second, uint64_t third);
+extern void * terminal_callback(struct limine_terminal *term, uint64_t type, uint64_t first, uint64_t second, uint64_t third);
 extern void terminal_init();
 
 #endif

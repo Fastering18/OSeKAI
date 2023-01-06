@@ -4,4 +4,6 @@
 void pit_handler(struct registers_t *regs);
 void pit_init();
 
+void pit_wait(uint16_t s);
+
 #endif

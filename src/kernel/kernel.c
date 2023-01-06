@@ -10,8 +10,10 @@
 #include <serial.h>
 #include "io.h"
 
-uint8_t *kernel_stack;
+#include "pit.h"
 
+uint8_t *kernel_stack;
+uint64_t hhdm_offset;
 
 #if LVL5_PAGING
 volatile struct limine_5_level_paging_request _5_level_paging_request =
@@ -20,6 +22,12 @@ volatile struct limine_5_level_paging_request _5_level_paging_request =
         .revision = 0,
         .response = NULL};
 #endif
+
+volatile struct limine_bootloader_info_request bootloader_request =
+    {
+        .id = LIMINE_BOOTLOADER_INFO_REQUEST,
+        .revision = 0,
+        .response = NULL};
 
 volatile struct limine_terminal_request terminal_request =
     {
@@ -39,7 +47,12 @@ volatile struct limine_smp_request smp_request =
         .id = LIMINE_SMP_REQUEST,
         .revision = 0,
         .response = NULL,
-        .flags = (1 << 0)};
+#if defined(__x86_64__)
+        .flags = LIMINE_SMP_X2APIC
+#else
+        .flags = 0
+#endif
+};
 
 volatile struct limine_memmap_request memmap_request =
     {
@@ -111,9 +124,9 @@ struct RSDP
     uint8_t reserved[3];
 };
 
-void
-set_fpu_cw(const uint16_t cw) {
-	__asm__ volatile("fldcw %0" :: "m"(cw));
+void set_fpu_cw(const uint16_t cw)
+{
+    __asm__ volatile("fldcw %0" ::"m"(cw));
 }
 
 // kernel's entry point.
@@ -121,12 +134,13 @@ void _start(void)
 {
     __asm__("movq %%rsp, %0"
             : "=r"(kernel_stack));
-    //enableSSE();
-    //enableSMEP();
-    //enableSMAP();
+    // enableSSE();
+    // enableSMEP();
+    // enableSMAP();
 
     // Ensure terminal
-    if (terminal_request.response == NULL || terminal_request.response->terminal_count < 1) halt();
+    if (terminal_request.response == NULL || terminal_request.response->terminal_count < 1)
+        halt();
 
     // welcome (serial)
     serial_print("\nWelcome to OSeKAI\n");
@@ -137,25 +151,30 @@ void _start(void)
     framebuffer_init();
     terminal_init();
 
-    #ifdef __DATE__ && __TIME__
+#ifdef __DATE__ &&__TIME__
     printf("Welcome to OSeKAI (build %s, %s)\n", __DATE__, __TIME__);
-    #else
+#else
     printf("Welcome to OSeKAI (build 10/12/2022)\n");
-    #endif
-    terminal_print("Project github.com/Fastering18/OSeKAI\n\n");
+#endif
+    printf("Project github.com/Fastering18/OSeKAI\n\n");
+
+    // bootloader info
+    printf("Booted with %s (v%s)\n", bootloader_request.response->name, bootloader_request.response->version);
 
     // initialize IDT
     idt_init();
-    terminal_print("- IDT initialized\n");
+    printf("- IDT initialized\n");
 
     // initialize pic
     pic_init();
     idt_reload();
-    terminal_print("- PIC initialized\n");
+    printf("- PIC initialized\n");
 
     // map memory
+    hhdm_offset = hhdm_request.response->offset;
+    // printf("%s\n", kernel_file_request.response->kernel_file->cmdline);
     mem_init();
-    //terminal_print("- Memory initialized\n");
+    // terminal_print("- Memory initialized\n");
 
     // debug
     printf("|- CPU count: %d\n", smp_request.response->cpu_count);
@@ -164,9 +183,10 @@ void _start(void)
 
     struct RSDP *rsdp = (struct RSDP *)rsdp_request.response->address;
     printf("|- rsdp at: 0x%x\n", rsdp->rsdt_addr);
+    // printf("|- HHDM offset: %d\n", hhdm_offset);
     printf("|- kernel path: %s\n", kernel_file_request.response->kernel_file->path);
 
-    terminal_print(
+    printf(
         "\n  \033[1;91m_____\033[0m   \033[1;32m_____\033[0m     \033[0;36m__  __\033[0m         \033[1;35m______\033[0m                    \
 \n \033[1;91m/ ___ \\\033[0m \033[1;32m/ ____|\033[0m    \033[0;36m| |/ /\033[0m    /\\   \033[1;35m|_   _|\033[0m                          \
 \n \033[1;91m| |  | |\033[0m \033[1;32m(___\033[0m   \033[1;93m___\033[0m\033[0;36m| ' /\033[0m    /  \\    \033[1;35m| |\033[0m            \
@@ -174,13 +194,23 @@ void _start(void)
 \n \033[1;91m| |__| |\033[0m\033[1;32m____)\033[0m \033[1;93m|  __/\033[0m \033[0;36m. \\\033[0m  / ____ \\ \033[1;35m_| |_\033[0m          \
 \n \033[1;91m\\____|\033[0m\033[1;32m_______/\033[0m \033[1;93m\\___|\033[0m\033[0;36m_|\\_\\\033[0m/_/    \\_\\\033[1;35m_____|\033[0m     \n\
   ");
-    terminal_print("\033[1;37mOperasi Sistem e Karya Anak Indonesia\033[0m\n");
+    printf("\033[1;37mOperasi Sistem e Karya Anak Indonesia\033[0m\n");
 
     size_t cr4;
-	__asm__ volatile ("mov %%cr4, %0" : "=r"(cr4));
-	cr4 |= 0x200;
-	__asm__ volatile ("mov %0, %%cr4" :: "r"(cr4));
-	set_fpu_cw(0x37F);
+    __asm__ volatile("mov %%cr4, %0"
+                     : "=r"(cr4));
+    cr4 |= 0x200;
+    __asm__ volatile("mov %0, %%cr4" ::"r"(cr4));
+    set_fpu_cw(0x37F);
+
+    /*for (int i=0; i<7; i++)
+    {
+        int *mleak = alloc(sizeof(int) * 20000);
+        printf("alloc mleak(20000)\n");
+        mem_info();
+        //free(m, 2);
+        pit_wait(.05);
+    }*/
 
     /*for (size_t i = 0; i < module_request.response->module_count; i++) {
         terminal_print(module_request.response->modules[i]->cmdline);

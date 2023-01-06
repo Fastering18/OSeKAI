@@ -15,7 +15,7 @@
 #define TIMER_IRQ 0
 #define SUBTICKS_PER_TICK 100
 
-int ticks = 0;
+uint64_t ticks = 0;
 
 void
 timer_phase(
@@ -31,9 +31,9 @@ void pit_handler(struct registers_t *regs)
 {
     //terminal_print(".");
     ticks++;
-    /*if (ticks % 100 == 0) {
-        terminal_print(".");
-    }*/
+    if (ticks % 100 == 0) {
+        printf(".");
+    }
     pic_sendEOI(0);
 }
 
@@ -41,4 +41,9 @@ void pit_init() {
     timer_phase(100);
     register_handler(0x20, pit_handler);
     serial_print("PIT initialized\n");
+}
+
+void pit_wait(uint16_t s) {
+    uint64_t st = ticks; 
+    while (ticks-st < s*100) ;
 }

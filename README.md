@@ -19,7 +19,7 @@ An experimental OS project based on limine bootloader written in C & Assembly.
 - [x] GDT
 - [x] IDT
 - [x] PIC
-- [ ] PMM
+- [x] PMM
 - [ ] VMM
 - - [x] PIT
 - - [x] Keyboard

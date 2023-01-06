@@ -4,6 +4,15 @@
 #include <stdbool.h>
 #include <string.h>
 
+#define DECLARE_LOCK(name) volatile int name##Locked;
+#define LOCK(name)                                             \
+    while (!__sync_bool_compare_and_swap(&name##Locked, 0, 1)) \
+        ;                                                      \
+    __sync_synchronize();
+#define UNLOCK(name)      \
+    __sync_synchronize(); \
+    name##Locked = 0;
+
 char *resetcolour = "\033[0m";
 
 struct limine_terminal **terminals;
@@ -22,7 +31,6 @@ void terminal_init()
 
 void _terminal_print(const char *str, struct limine_terminal *term)
 {
-    // lockit(term_lock);
     if (terminal_request.response == NULL || term == NULL)
         return;
     terminal_request.response->write(term, str, strlen(str));
@@ -113,8 +121,10 @@ void terminal_clear(const char *ansii_colour)
     _terminal_clear(ansii_colour, default_trm);
 }
 
+DECLARE_LOCK(printf)
 void printf(const char *format, ...)
 {
+    LOCK(printf)
     char *str = format;
 
     char ite;
@@ -137,6 +147,12 @@ void printf(const char *format, ...)
         {
             switch (str[z + 1])
             {
+            case 'c':
+            {
+                char arg = va_arg(listPointer, char);
+                terminal_printc(arg);
+                break;
+            }
             case 's':
             {
                 char *arg = va_arg(listPointer, char *);
@@ -173,63 +189,51 @@ void printf(const char *format, ...)
                 }
                 break;
             }
-        case 'x':
+            case 'x':
+            {
+                int arg = va_arg(listPointer, int);
+                char conv[10];
+                itoa(arg, conv, 16);
+                terminal_print(conv);
+                break;
+            }
+            }
+            z++;
+        }
+        else
         {
-            int arg = va_arg(listPointer, int);
-            char conv[10];
-            itoa(arg, conv, 16);
-            terminal_print(conv);
+            // drawchar(ite, 0xffffffff, 0x00000000);
+            terminal_printc(ite);
         }
-        }
-        z++;
     }
-    else
-    {
-        // drawchar(ite, 0xffffffff, 0x00000000);
-        terminal_printc(ite);
-    }
-}
-// drawstring(current , 0xffffffff, 0x00000000);
+    // drawstring(current , 0xffffffff, 0x00000000);
+    UNLOCK(printf)
+    va_end(listPointer);
 }
 
-/*
-void _terminal_cursor_up(int lines, struct limine_terminal *term)
-{
-    printf(term, "\033[%dA", lines);
-}
+
 void terminal_cursor_up(int lines)
 {
-    _terminal_cursor_up(lines, default_trm);
+    printf("\033[%dA", lines);
 }
 
-void _terminal_cursor_down(int lines, struct limine_terminal *term)
-{
-    printf(term, "\033[%dB", lines);
-}
 void terminal_cursor_down(int lines)
 {
-    _terminal_cursor_down(lines, default_trm);
+    printf("\033[%dB", lines);
 }
 
-void _terminal_cursor_right(int lines, struct limine_terminal *term)
-{
-    printf(term, "\033[%dC", lines);
-}
 void terminal_cursor_right(int lines)
 {
-    _terminal_cursor_right(lines, default_trm);
+    printf("\033[%dC", lines);
 }
 
-void _terminal_cursor_left(int lines, struct limine_terminal *term)
+void terminal_cursor_left(int lines)
 {
-    printf(term, "\033[%dD", lines);
+    printf("\033[%dD", lines);
 }
-void terminal_cursor_left(int lines, struct limine_terminal *term)
-{
-    _terminal_cursor_left(lines, default_trm);
-}*/
 
-void terminal_callback(struct limine_terminal *term, uint64_t type, uint64_t first, uint64_t second, uint64_t third)
+
+void *terminal_callback(struct limine_terminal *term, uint64_t type, uint64_t first, uint64_t second, uint64_t third)
 {
     terminal_printi(type);
     terminal_print("kbd cb called");
